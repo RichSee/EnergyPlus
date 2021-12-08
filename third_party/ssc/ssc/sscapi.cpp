@@ -60,12 +60,12 @@
 
 #pragma warning (disable : 4706 )
 
-SSCEXPORT int ssc_version()
+SSCEXPORT int ssc_version_ep()
 {
 	return 252;
 }
 
-SSCEXPORT const char *ssc_build_info()
+SSCEXPORT const char *ssc_build_info_ep()
 {
 	static const char *_bi = __PLATFORM__ " " __ARCH__ " " __COMPILER__ " " __DATE__ " " __TIME__;
 	return _bi;
@@ -270,7 +270,7 @@ static module_entry_info *module_table[] = {
 //	&cm_entry_battery_stateful,
 	0 };
 
-SSCEXPORT ssc_module_t ssc_module_create( const char *name )
+SSCEXPORT ssc_module_t ssc_module_create_ep( const char *name )
 {
 	std::string lname = util::lower_case( name );
 
@@ -286,7 +286,7 @@ SSCEXPORT ssc_module_t ssc_module_create( const char *name )
 	return 0;
 }
 
-SSCEXPORT void ssc_module_free( ssc_module_t p_mod )
+SSCEXPORT void ssc_module_free_ep( ssc_module_t p_mod )
 {
 	compute_module *cm = static_cast<compute_module*>(p_mod);
 	if (cm) delete cm; // calls destructors for compute_module and tcskernel if a ssc-tcs technology
@@ -295,29 +295,29 @@ SSCEXPORT void ssc_module_free( ssc_module_t p_mod )
 /*************************** var object manipulation ***************************/
 
 
-SSCEXPORT ssc_var_t ssc_var_create(){
+SSCEXPORT ssc_var_t ssc_var_create_ep(){
     return static_cast<ssc_var_t >( new var_data );
 }
 
-SSCEXPORT void ssc_var_free( ssc_var_t p_var )
+SSCEXPORT void ssc_var_free_ep( ssc_var_t p_var )
 {
     auto vd = static_cast<var_data*>(p_var);
     delete vd;
 }
 
-SSCEXPORT void ssc_var_clear( ssc_var_t p_var )
+SSCEXPORT void ssc_var_clear_ep( ssc_var_t p_var )
 {
     auto vd = static_cast<var_data*>(p_var);
     if (vd) vd->clear();
 }
 
-SSCEXPORT int ssc_var_query(ssc_var_t p_var){
+SSCEXPORT int ssc_var_query_ep(ssc_var_t p_var){
     auto vt = static_cast<var_data*>(p_var);
     if(!vt) return -1;
     return vt->type;
 }
 
-SSCEXPORT void ssc_var_size(ssc_var_t p_var, int* nrows, int* ncols){
+SSCEXPORT void ssc_var_size_ep(ssc_var_t p_var, int* nrows, int* ncols){
     auto vt = static_cast<var_data*>(p_var);
     if(!vt) return;
     switch(vt->type){
@@ -354,7 +354,7 @@ SSCEXPORT void ssc_var_size(ssc_var_t p_var, int* nrows, int* ncols){
     }
 }
 
-SSCEXPORT void ssc_var_set_string( ssc_var_t p_var, const char *value )
+SSCEXPORT void ssc_var_set_string_ep( ssc_var_t p_var, const char *value )
 {
     auto vt = static_cast<var_data*>(p_var);
     if (!vt) return;
@@ -363,7 +363,7 @@ SSCEXPORT void ssc_var_set_string( ssc_var_t p_var, const char *value )
     vt->str = value;
 }
 
-SSCEXPORT void ssc_var_set_number( ssc_var_t p_var, ssc_number_t value )
+SSCEXPORT void ssc_var_set_number_ep( ssc_var_t p_var, ssc_number_t value )
 {
     auto vt = static_cast<var_data*>(p_var);
     if (!vt) return;
@@ -372,7 +372,7 @@ SSCEXPORT void ssc_var_set_number( ssc_var_t p_var, ssc_number_t value )
     vt->num = value;
 }
 
-SSCEXPORT void ssc_var_set_array( ssc_var_t p_var, ssc_number_t *pvalues, int length )
+SSCEXPORT void ssc_var_set_array_ep( ssc_var_t p_var, ssc_number_t *pvalues, int length )
 {
     auto vt = static_cast<var_data*>(p_var);
     if (!vt) return;
@@ -381,7 +381,7 @@ SSCEXPORT void ssc_var_set_array( ssc_var_t p_var, ssc_number_t *pvalues, int le
     vt->num.assign(pvalues, length);
 }
 
-SSCEXPORT void ssc_var_set_matrix( ssc_var_t p_var, ssc_number_t *pvalues, int nrows, int ncols )
+SSCEXPORT void ssc_var_set_matrix_ep( ssc_var_t p_var, ssc_number_t *pvalues, int nrows, int ncols )
 {
     auto vt = static_cast<var_data*>(p_var);
     if (!vt) return;
@@ -390,7 +390,7 @@ SSCEXPORT void ssc_var_set_matrix( ssc_var_t p_var, ssc_number_t *pvalues, int n
     vt->num.assign(pvalues, nrows, ncols);
 }
 
-SSCEXPORT void ssc_var_set_table( ssc_var_t p_var, ssc_data_t table )
+SSCEXPORT void ssc_var_set_table_ep( ssc_var_t p_var, ssc_data_t table )
 {
     auto vt = static_cast<var_data*>(p_var);
     auto value = static_cast<var_table*>(table);
@@ -400,7 +400,7 @@ SSCEXPORT void ssc_var_set_table( ssc_var_t p_var, ssc_data_t table )
     vt->table = *value;
 }
 
-SSCEXPORT void ssc_var_set_data_array(ssc_var_t p_var, ssc_var_t p_var_entry, int r ){
+SSCEXPORT void ssc_var_set_data_array_ep(ssc_var_t p_var, ssc_var_t p_var_entry, int r ){
     auto vt = static_cast<var_data*>(p_var);
     if (!vt) return;
     vt->type = SSC_DATARR;
@@ -410,7 +410,7 @@ SSCEXPORT void ssc_var_set_data_array(ssc_var_t p_var, ssc_var_t p_var_entry, in
     vec[r] = *static_cast<var_data*>(p_var_entry);
 }
 
-SSCEXPORT void ssc_var_set_data_matrix(ssc_var_t p_var, ssc_var_t p_var_entry, int r, int c ){
+SSCEXPORT void ssc_var_set_data_matrix_ep(ssc_var_t p_var, ssc_var_t p_var_entry, int r, int c ){
     auto vt = static_cast<var_data*>(p_var);
     if (!vt) return;
     vt->type = SSC_DATMAT;
@@ -423,21 +423,21 @@ SSCEXPORT void ssc_var_set_data_matrix(ssc_var_t p_var, ssc_var_t p_var_entry, i
     mat[r][c] = *static_cast<var_data*>(p_var_entry);
 }
 
-SSCEXPORT const char *ssc_var_get_string( ssc_var_t p_var )
+SSCEXPORT const char *ssc_var_get_string_ep( ssc_var_t p_var )
 {
     auto vt = static_cast<var_data*>(p_var);
     if (!vt || vt->type != SSC_STRING) return 0;
     return vt->str.c_str();
 }
 
-SSCEXPORT ssc_number_t ssc_var_get_number( ssc_var_t p_var )
+SSCEXPORT ssc_number_t ssc_var_get_number_ep( ssc_var_t p_var )
 {
     auto vt = static_cast<var_data*>(p_var);
     if (!vt || vt->type != SSC_NUMBER) return 0;
     return vt->num[0];
 }
 
-SSCEXPORT ssc_number_t *ssc_var_get_array(ssc_var_t p_var,  int *length )
+SSCEXPORT ssc_number_t *ssc_var_get_array_ep(ssc_var_t p_var,  int *length )
 {
     auto vt = static_cast<var_data*>(p_var);
     if (!vt || vt->type != SSC_ARRAY) return 0;
@@ -445,7 +445,7 @@ SSCEXPORT ssc_number_t *ssc_var_get_array(ssc_var_t p_var,  int *length )
     return vt->num.data();
 }
 
-SSCEXPORT ssc_number_t *ssc_var_get_matrix( ssc_var_t p_var, int *nrows, int *ncols )
+SSCEXPORT ssc_number_t *ssc_var_get_matrix_ep( ssc_var_t p_var, int *nrows, int *ncols )
 {
     auto vt = static_cast<var_data*>(p_var);
     if (!vt || vt->type != SSC_MATRIX) return 0;
@@ -454,14 +454,14 @@ SSCEXPORT ssc_number_t *ssc_var_get_matrix( ssc_var_t p_var, int *nrows, int *nc
     return vt->num.data();
 }
 
-SSCEXPORT ssc_data_t ssc_var_get_table( ssc_var_t p_var )
+SSCEXPORT ssc_data_t ssc_var_get_table_ep( ssc_var_t p_var )
 {
     auto vt = static_cast<var_data*>(p_var);
     if (!vt || vt->type != SSC_TABLE) return 0;
     return static_cast<ssc_data_t>( &(vt->table) );
 }
 
-SSCEXPORT ssc_var_t ssc_var_get_var_array(ssc_var_t p_var, int r) {
+SSCEXPORT ssc_var_t ssc_var_get_var_array_ep(ssc_var_t p_var, int r) {
     auto vt = static_cast<var_data*>(p_var);
     if (!vt) return 0;
     if (r < (int)vt->vec.size())
@@ -470,7 +470,7 @@ SSCEXPORT ssc_var_t ssc_var_get_var_array(ssc_var_t p_var, int r) {
         return nullptr;
 }
 
-SSCEXPORT ssc_var_t ssc_var_get_var_matrix(ssc_var_t p_var, int r, int c) {
+SSCEXPORT ssc_var_t ssc_var_get_var_matrix_ep(ssc_var_t p_var, int r, int c) {
     auto vt = static_cast<var_data*>(p_var);
     if (!vt) return 0;
     if (r < (int)vt->mat.size() && c < (int)vt->mat[r].size())
@@ -482,24 +482,24 @@ SSCEXPORT ssc_var_t ssc_var_get_var_matrix(ssc_var_t p_var, int r, int c) {
 
 /*************************** data object manipulation ***************************/
 
-SSCEXPORT ssc_data_t ssc_data_create()
+SSCEXPORT ssc_data_t ssc_data_create_ep()
 {
 	return static_cast<ssc_data_t>( new var_table );
 }
 
-SSCEXPORT void ssc_data_free( ssc_data_t p_data )
+SSCEXPORT void ssc_data_free_ep( ssc_data_t p_data )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (vt) delete vt;
 }
 
-SSCEXPORT void ssc_data_clear( ssc_data_t p_data )
+SSCEXPORT void ssc_data_clear_ep( ssc_data_t p_data )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (vt) vt->clear();
 }
 
-SSCEXPORT void ssc_data_unassign( ssc_data_t p_data, const char *name )
+SSCEXPORT void ssc_data_unassign_ep( ssc_data_t p_data, const char *name )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return;
@@ -507,7 +507,7 @@ SSCEXPORT void ssc_data_unassign( ssc_data_t p_data, const char *name )
 }
 
 
-SSCEXPORT int ssc_data_rename( ssc_data_t p_data, const char *oldname, const char *newname )
+SSCEXPORT int ssc_data_rename_ep( ssc_data_t p_data, const char *oldname, const char *newname )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return 0;
@@ -515,7 +515,7 @@ SSCEXPORT int ssc_data_rename( ssc_data_t p_data, const char *oldname, const cha
 	return vt->rename( oldname, newname ) ? 1 : 0;
 }
 
-SSCEXPORT int ssc_data_query( ssc_data_t p_data, const char *name )
+SSCEXPORT int ssc_data_query_ep( ssc_data_t p_data, const char *name )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return SSC_INVALID;
@@ -524,35 +524,35 @@ SSCEXPORT int ssc_data_query( ssc_data_t p_data, const char *name )
 	else return dat->type;
 }
 
-SSCEXPORT const char *ssc_data_first( ssc_data_t p_data ) // returns the name of the first data item, 0 if empty
+SSCEXPORT const char *ssc_data_first_ep( ssc_data_t p_data ) // returns the name of the first data item, 0 if empty
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return 0;
 	return vt->first();
 }
 
-SSCEXPORT const char *ssc_data_next( ssc_data_t p_data ) // returns the next name in the data set object, 0, if none left.
+SSCEXPORT const char *ssc_data_next_ep( ssc_data_t p_data ) // returns the next name in the data set object, 0, if none left.
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return 0;
 	return vt->next();
 }
 
-SSCEXPORT ssc_var_t ssc_data_lookup(ssc_data_t p_data, const char *name)
+SSCEXPORT ssc_var_t ssc_data_lookup_ep(ssc_data_t p_data, const char *name)
 {
     var_table *vt = static_cast<var_table*>(p_data);
     if (!vt) return nullptr;
     return vt->lookup(name);
 }
 
-SSCEXPORT ssc_var_t ssc_data_lookup_case(ssc_data_t p_data, const char *name)
+SSCEXPORT ssc_var_t ssc_data_lookup_case_ep(ssc_data_t p_data, const char *name)
 {
     var_table *vt = static_cast<var_table*>(p_data);
     if (!vt) return nullptr;
     return vt->lookup_match_case(name);
 }
 
-SSCEXPORT void ssc_data_set_var(ssc_data_t p_data, const char *name, ssc_var_t p_var)
+SSCEXPORT void ssc_data_set_var_ep(ssc_data_t p_data, const char *name, ssc_var_t p_var)
 {
     auto vt = static_cast<var_table*>(p_data);
     if (!vt) return;
@@ -561,35 +561,35 @@ SSCEXPORT void ssc_data_set_var(ssc_data_t p_data, const char *name, ssc_var_t p
     vt->assign(name, *vd);
 }
 
-SSCEXPORT void ssc_data_set_string( ssc_data_t p_data, const char *name, const char *value )
+SSCEXPORT void ssc_data_set_string_ep( ssc_data_t p_data, const char *name, const char *value )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return;
 	vt->assign( name, var_data( std::string(value) ) );
 }
 
-SSCEXPORT void ssc_data_set_number( ssc_data_t p_data, const char *name, ssc_number_t value )
+SSCEXPORT void ssc_data_set_number_ep( ssc_data_t p_data, const char *name, ssc_number_t value )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return;
 	vt->assign( name, var_data( value ) );
 }
 
-SSCEXPORT void ssc_data_set_array( ssc_data_t p_data, const char *name, ssc_number_t *pvalues, int length )
+SSCEXPORT void ssc_data_set_array_ep( ssc_data_t p_data, const char *name, ssc_number_t *pvalues, int length )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return;
 	vt->assign( name, var_data( pvalues, length ) );
 }
 
-SSCEXPORT void ssc_data_set_matrix( ssc_data_t p_data, const char *name, ssc_number_t *pvalues, int nrows, int ncols )
+SSCEXPORT void ssc_data_set_matrix_ep( ssc_data_t p_data, const char *name, ssc_number_t *pvalues, int nrows, int ncols )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return;
 	vt->assign( name, var_data(pvalues, nrows, ncols) );
 }
 
-SSCEXPORT void ssc_data_set_table( ssc_data_t p_data, const char *name, ssc_data_t table )
+SSCEXPORT void ssc_data_set_table_ep( ssc_data_t p_data, const char *name, ssc_data_t table )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	var_table *value = static_cast<var_table*>(table);
@@ -599,7 +599,7 @@ SSCEXPORT void ssc_data_set_table( ssc_data_t p_data, const char *name, ssc_data
 	dat->table = *value;  // invokes operator= for deep copy
 }
 
-SSCEXPORT void ssc_data_set_data_array(ssc_data_t p_data, const char *name, ssc_var_t *data_array, int nrows ){
+SSCEXPORT void ssc_data_set_data_array_ep(ssc_data_t p_data, const char *name, ssc_var_t *data_array, int nrows ){
     auto vt = static_cast<var_table*>(p_data);
     if (!vt) return;
     std::vector<var_data> vec;
@@ -610,7 +610,7 @@ SSCEXPORT void ssc_data_set_data_array(ssc_data_t p_data, const char *name, ssc_
     vt->assign( name, var_data(vec));
 }
 
-SSCEXPORT void ssc_data_set_data_matrix(ssc_data_t p_data, const char *name, ssc_var_t *data_matrix, int nrows, int ncols ){
+SSCEXPORT void ssc_data_set_data_matrix_ep(ssc_data_t p_data, const char *name, ssc_var_t *data_matrix, int nrows, int ncols ){
     auto  *vt = static_cast<var_table*>(p_data);
     if (!vt) return;
     std::vector<std::vector<var_data>> mat;
@@ -625,7 +625,7 @@ SSCEXPORT void ssc_data_set_data_matrix(ssc_data_t p_data, const char *name, ssc
     vt->assign( name, var_data(mat));
 }
 
-SSCEXPORT const char *ssc_data_get_string( ssc_data_t p_data, const char *name )
+SSCEXPORT const char *ssc_data_get_string_ep( ssc_data_t p_data, const char *name )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return 0;
@@ -634,7 +634,7 @@ SSCEXPORT const char *ssc_data_get_string( ssc_data_t p_data, const char *name )
 	return dat->str.c_str();
 }
 
-SSCEXPORT ssc_bool_t ssc_data_get_number( ssc_data_t p_data, const char *name, ssc_number_t *value )
+SSCEXPORT ssc_bool_t ssc_data_get_number_ep( ssc_data_t p_data, const char *name, ssc_number_t *value )
 {
 	if (!value) return 0;
 	var_table *vt = static_cast<var_table*>(p_data);
@@ -645,7 +645,7 @@ SSCEXPORT ssc_bool_t ssc_data_get_number( ssc_data_t p_data, const char *name, s
 	return 1;
 }
 
-SSCEXPORT ssc_number_t *ssc_data_get_array(ssc_data_t p_data,  const char *name, int *length )
+SSCEXPORT ssc_number_t *ssc_data_get_array_ep(ssc_data_t p_data,  const char *name, int *length )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return 0;
@@ -655,7 +655,7 @@ SSCEXPORT ssc_number_t *ssc_data_get_array(ssc_data_t p_data,  const char *name,
 	return dat->num.data();
 }
 
-SSCEXPORT ssc_number_t *ssc_data_get_matrix( ssc_data_t p_data, const char *name, int *nrows, int *ncols )
+SSCEXPORT ssc_number_t *ssc_data_get_matrix_ep( ssc_data_t p_data, const char *name, int *nrows, int *ncols )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return 0;
@@ -666,7 +666,7 @@ SSCEXPORT ssc_number_t *ssc_data_get_matrix( ssc_data_t p_data, const char *name
 	return dat->num.data();
 }
 
-SSCEXPORT ssc_data_t ssc_data_get_table( ssc_data_t p_data, const char *name )
+SSCEXPORT ssc_data_t ssc_data_get_table_ep( ssc_data_t p_data, const char *name )
 {
 	var_table *vt = static_cast<var_table*>(p_data);
 	if (!vt) return 0;
@@ -675,7 +675,7 @@ SSCEXPORT ssc_data_t ssc_data_get_table( ssc_data_t p_data, const char *name )
 	return static_cast<ssc_data_t>( &(dat->table) );
 }
 
-SSCEXPORT ssc_var_t ssc_data_get_data_array(ssc_data_t p_data, const char *name, int *nrows) {
+SSCEXPORT ssc_var_t ssc_data_get_data_array_ep(ssc_data_t p_data, const char *name, int *nrows) {
     auto vt = static_cast<var_table*>(p_data);
     if (!vt) return 0;
     var_data *dat = vt->lookup(name);
@@ -687,7 +687,7 @@ SSCEXPORT ssc_var_t ssc_data_get_data_array(ssc_data_t p_data, const char *name,
     return dat;
 }
 
-SSCEXPORT ssc_var_t ssc_data_get_data_matrix(ssc_data_t p_data, const char *name, int *nrows, int *ncols ){
+SSCEXPORT ssc_var_t ssc_data_get_data_matrix_ep(ssc_data_t p_data, const char *name, int *nrows, int *ncols ){
     auto vt = static_cast<var_table*>(p_data);
     if (!vt) return 0;
     var_data *dat = vt->lookup(name);
@@ -702,7 +702,7 @@ SSCEXPORT ssc_var_t ssc_data_get_data_matrix(ssc_data_t p_data, const char *name
     return dat;
 }
 
-void json_to_ssc_var(const Json::Value& json_val, ssc_var_t ssc_val){
+void json_to_ssc_var_ep(const Json::Value& json_val, ssc_var_t ssc_val){
     if (!ssc_val)
         return;
     auto vd = static_cast<var_data*>(ssc_val);
@@ -779,7 +779,7 @@ void json_to_ssc_var(const Json::Value& json_val, ssc_var_t ssc_val){
             for (const auto & value : json_val){
                 vd_arr->emplace_back(var_data());
                 auto entry = &vd_arr->back();
-                json_to_ssc_var(value, entry);
+                json_to_ssc_var_ep(value, entry);
             }
             vd->type = SSC_DATARR;
             return;
@@ -788,13 +788,13 @@ void json_to_ssc_var(const Json::Value& json_val, ssc_var_t ssc_val){
             members = json_val.getMemberNames();
             for (auto const &name : members) {
                 auto entry = vd_tab->assign(name, var_data());
-                json_to_ssc_var(json_val[name], entry);
+                json_to_ssc_var_ep(json_val[name], entry);
             }
             vd->type = SSC_TABLE;
     }
 }
 
-SSCEXPORT ssc_data_t json_to_ssc_data(const char* json_str){
+SSCEXPORT ssc_data_t json_to_ssc_data_ep(const char* json_str){
     auto vt = new var_table;
     const std::string rawJson(json_str);
     const auto rawJsonLength = static_cast<int>(rawJson.length());
@@ -811,7 +811,7 @@ SSCEXPORT ssc_data_t json_to_ssc_data(const char* json_str){
     Json::Value::Members members = root.getMemberNames();
     for (auto const &name : members) {
         var_data ssc_val;
-        json_to_ssc_var(root[name], &ssc_val);
+        json_to_ssc_var_ep(root[name], &ssc_val);
         vt->assign(name, ssc_val);
     }
     return vt;
@@ -863,7 +863,7 @@ Json::Value ssc_var_to_json(var_data* vd){
     }
 }
 
-SSCEXPORT const char* ssc_data_to_json(ssc_data_t p_data){
+SSCEXPORT const char* ssc_data_to_json_ep(ssc_data_t p_data){
     auto vt = static_cast<var_table*>(p_data);
     if (!vt) return nullptr;
 
@@ -880,7 +880,7 @@ SSCEXPORT const char* ssc_data_to_json(ssc_data_t p_data){
 }
 
 
-SSCEXPORT ssc_entry_t ssc_module_entry( int index )
+SSCEXPORT ssc_entry_t ssc_module_entry_ep( int index )
 {
 	int max=0;
 	while( module_table[max++] != 0 );
@@ -889,87 +889,87 @@ SSCEXPORT ssc_entry_t ssc_module_entry( int index )
 	else return 0;
 }
 
-SSCEXPORT const char *ssc_entry_name( ssc_entry_t p_entry )
+SSCEXPORT const char *ssc_entry_name_ep( ssc_entry_t p_entry )
 {
 	module_entry_info *p = static_cast<module_entry_info*>(p_entry);
 	return p ? p->name : 0;
 }
 
-SSCEXPORT const char *ssc_entry_description( ssc_entry_t p_entry )
+SSCEXPORT const char *ssc_entry_description_ep( ssc_entry_t p_entry )
 {
 	module_entry_info *p = static_cast<module_entry_info*>(p_entry);
 	return p ? p->description : 0;
 }
 
-SSCEXPORT int ssc_entry_version( ssc_entry_t p_entry )
+SSCEXPORT int ssc_entry_version_ep( ssc_entry_t p_entry )
 {
 	module_entry_info *p = static_cast<module_entry_info*>(p_entry);
 	return p ? p->version : 0;
 }
 
 
-SSCEXPORT ssc_info_t ssc_module_var_info( ssc_module_t p_mod, int index )
+SSCEXPORT ssc_info_t ssc_module_var_info_ep( ssc_module_t p_mod, int index )
 {
 	compute_module *cm = static_cast<compute_module*>(p_mod);
 	if (!cm) return 0;
 	return static_cast<ssc_info_t>( cm->info( index ) );
 }
 
-SSCEXPORT int ssc_info_var_type( ssc_info_t p_inf )
+SSCEXPORT int ssc_info_var_type_ep( ssc_info_t p_inf )
 {
 	var_info *vi = static_cast<var_info*>(p_inf);
 	return vi ? vi->var_type : SSC_INVALID;
 }
 
-SSCEXPORT int ssc_info_data_type( ssc_info_t p_inf )
+SSCEXPORT int ssc_info_data_type_ep( ssc_info_t p_inf )
 {
 	var_info *vi = static_cast<var_info*>(p_inf);
 	return vi ? vi->data_type : SSC_INVALID;
 }
 
-SSCEXPORT const char *ssc_info_name( ssc_info_t p_inf )
+SSCEXPORT const char *ssc_info_name_ep( ssc_info_t p_inf )
 {
 	var_info *vi = static_cast<var_info*>(p_inf);
 	return vi ? vi->name : 0;
 }
 
-SSCEXPORT const char *ssc_info_label( ssc_info_t p_inf )
+SSCEXPORT const char *ssc_info_label_ep( ssc_info_t p_inf )
 {
 	var_info *vi = static_cast<var_info*>(p_inf);
 	return vi ? vi->label : 0;
 }
 
-SSCEXPORT const char *ssc_info_units( ssc_info_t p_inf )
+SSCEXPORT const char *ssc_info_units_ep( ssc_info_t p_inf )
 {
 	var_info *vi = static_cast<var_info*>(p_inf);
 	return vi ? vi->units : 0;
 }
 
-SSCEXPORT const char *ssc_info_meta( ssc_info_t p_inf )
+SSCEXPORT const char *ssc_info_meta_ep( ssc_info_t p_inf )
 {
 	var_info *vi = static_cast<var_info*>(p_inf);
 	return vi ? vi->meta : 0;
 }
 
-SSCEXPORT const char *ssc_info_required( ssc_info_t p_inf )
+SSCEXPORT const char *ssc_info_required_ep( ssc_info_t p_inf )
 {
 	var_info *vi = static_cast<var_info*>(p_inf);
 	return vi? vi->required_if : 0;
 }
 
-SSCEXPORT const char *ssc_info_group( ssc_info_t p_inf )
+SSCEXPORT const char *ssc_info_group_ep( ssc_info_t p_inf )
 {
 	var_info *vi = static_cast<var_info*>(p_inf);
 	return vi ? vi->group : 0;
 }
 
-SSCEXPORT const char *ssc_info_constraints( ssc_info_t p_inf )
+SSCEXPORT const char *ssc_info_constraints_ep( ssc_info_t p_inf )
 {
 	var_info *vi = static_cast<var_info*>(p_inf);
 	return vi ? vi->constraints : 0;
 }
 
-SSCEXPORT const char *ssc_info_uihint( ssc_info_t p_inf )
+SSCEXPORT const char *ssc_info_uihint_ep( ssc_info_t p_inf )
 {
 	var_info *vi = static_cast<var_info*>(p_inf);
 	return vi ? vi->ui_hint : 0;
@@ -1028,25 +1028,25 @@ static ssc_bool_t default_internal_handler( ssc_module_t /*p_mod*/, ssc_handler_
 		return 0;
 }
 
-SSCEXPORT ssc_bool_t ssc_module_exec_simple( const char *name, ssc_data_t p_data )
+SSCEXPORT ssc_bool_t ssc_module_exec_simple_ep( const char *name, ssc_data_t p_data )
 {
-	ssc_module_t p_mod = ssc_module_create( name );
+	ssc_module_t p_mod = ssc_module_create_ep( name );
 	if ( !p_mod ) return 0;
 
-	ssc_bool_t result = ssc_module_exec( p_mod, p_data );
+	ssc_bool_t result = ssc_module_exec_ep( p_mod, p_data );
 
-	ssc_module_free( p_mod );
+	ssc_module_free_ep( p_mod );
 	return result;
 }
 
-SSCEXPORT const char *ssc_module_exec_simple_nothread( const char *name, ssc_data_t p_data )
+SSCEXPORT const char *ssc_module_exec_simple_nothread_ep( const char *name, ssc_data_t p_data )
 {
 static char p_internal_buf[256];
 
-	ssc_module_t p_mod = ssc_module_create( name );
+	ssc_module_t p_mod = ssc_module_create_ep( name );
 	if (!p_mod) return 0;
 
-	ssc_bool_t result = ssc_module_exec( p_mod, p_data );
+	ssc_bool_t result = ssc_module_exec_ep( p_mod, p_data );
 
 	// copy over first error if there was one to internal buffer
 	if (!result)
@@ -1056,7 +1056,7 @@ static char p_internal_buf[256];
 		const char *text;
 		int type;
 		int i=0;
-		while( (text = ssc_module_log( p_mod, i, &type, 0 )) )
+		while( (text = ssc_module_log_ep( p_mod, i, &type, 0 )) )
 		{
 			if (type == SSC_ERROR)
 			{
@@ -1067,20 +1067,20 @@ static char p_internal_buf[256];
 		}
 	}
 
-	ssc_module_free( p_mod );
+	ssc_module_free_ep( p_mod );
 	return result ? 0 : p_internal_buf;
 }
 
 static int sg_defaultPrint = 1;
 
-SSCEXPORT void ssc_module_exec_set_print( int print )
+SSCEXPORT void ssc_module_exec_set_print_ep( int print )
 {
 	sg_defaultPrint = print;
 }
 
-SSCEXPORT ssc_bool_t ssc_module_exec( ssc_module_t p_mod, ssc_data_t p_data )
+SSCEXPORT ssc_bool_t ssc_module_exec_ep( ssc_module_t p_mod, ssc_data_t p_data )
 {
-	return ssc_module_exec_with_handler( p_mod, p_data, sg_defaultPrint ? default_internal_handler : default_internal_handler_no_print, 0 );
+	return ssc_module_exec_with_handler_ep( p_mod, p_data, sg_defaultPrint ? default_internal_handler : default_internal_handler_no_print, 0 );
 }
 
 class default_exec_handler : public handler_interface
@@ -1119,7 +1119,7 @@ public:
 	}
 };
 
-SSCEXPORT ssc_bool_t ssc_module_exec_with_handler(
+SSCEXPORT ssc_bool_t ssc_module_exec_with_handler_ep(
 	ssc_module_t p_mod,
 	ssc_data_t p_data,
 	ssc_bool_t (*pf_handler)( ssc_module_t, ssc_handler_t, int, float, float, const char*, const char *, void * ),
@@ -1146,7 +1146,7 @@ SSCEXPORT void ssc_module_extproc_output( ssc_handler_t p_handler, const char *o
 	if (hi)	hi->on_stdout( output_line );
 }
 
-SSCEXPORT const char *ssc_module_log( ssc_module_t p_mod, int index, int *item_type, float *time )
+SSCEXPORT const char *ssc_module_log_ep( ssc_module_t p_mod, int index, int *item_type, float *time )
 {
 	compute_module *cm = static_cast<compute_module*>(p_mod);
 	if (!p_mod) return 0;
@@ -1184,7 +1184,7 @@ SSCEXPORT const char *get_python_path() {
         throw(std::runtime_error("get_python_path error. Path does not exist. Set with 'set_python_path' first."));
 }
 
-SSCEXPORT ssc_module_t ssc_stateful_module_create( const char *name, ssc_data_t p_data) {
+SSCEXPORT ssc_module_t ssc_stateful_module_create_ep( const char *name, ssc_data_t p_data) {
     auto vt = static_cast<var_table*>(p_data);
     if (!vt) throw std::runtime_error("p_data invalid.");
 

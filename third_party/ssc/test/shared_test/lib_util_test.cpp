@@ -23,7 +23,7 @@ TEST(sscapiTest, SSC_DATARR_test)
     ssc_var_t vd[2];
     for (size_t i = 0; i < 2; i++){
         vd[i] = ssc_var_create();
-        ssc_var_set_number(vd[i], 2 + i);
+        ssc_var_set_number_ep(vd[i], 2 + i);
     }
 
     // set using ssc_data
@@ -53,7 +53,7 @@ TEST(sscapiTest, SSC_DATMAT_test)
     ssc_var_t vd[4];
     for (size_t i = 0; i < 4; i++){
         vd[i] = ssc_var_create();
-        ssc_var_set_number(vd[i], 2 + i);
+        ssc_var_set_number_ep(vd[i], 2 + i);
     }
 
     // set using ssc_data
