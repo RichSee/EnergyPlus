@@ -9,13 +9,13 @@
 
 SSCEXPORT ssc_bool_t ssc_data_t_get_number(ssc_data_t p_data, const char* name, ssc_number_t* value)
 {
-    bool success = ssc_data_get_number(p_data, name, value);
+    bool success = ssc_data_get_number_ep(p_data, name, value);
     if (!success) {
         // replace any periods in the name with underscores in order to read variables set by the UI
         std::string str_name(name);
         size_t n_replaced = util::replace(str_name, ".", "_");
         if (n_replaced > 0) {
-            success = ssc_data_get_number(p_data, str_name.c_str(), value);
+            success = ssc_data_get_number_ep(p_data, str_name.c_str(), value);
         }
     }
 
@@ -24,26 +24,26 @@ SSCEXPORT ssc_bool_t ssc_data_t_get_number(ssc_data_t p_data, const char* name, 
 
 SSCEXPORT void ssc_data_t_set_number(ssc_data_t p_data, const char* name, ssc_number_t value)
 {
-    ssc_data_set_number(p_data, name, value);
+    ssc_data_set_number_ep(p_data, name, value);
 
     // replace any periods in the name with underscores so UI equations can read value
     std::string str_name(name);
     size_t n_replaced = util::replace(str_name, ".", "_");
     if (n_replaced > 0) {
-        ssc_data_set_number(p_data, str_name.c_str(), value);
+        ssc_data_set_number_ep(p_data, str_name.c_str(), value);
     }
 }
 
 SSCEXPORT ssc_number_t *ssc_data_t_get_array(ssc_data_t p_data, const char* name, int* length)
 {
     ssc_number_t* data;
-    data = ssc_data_get_array(p_data, name, length);
+    data = ssc_data_get_array_ep(p_data, name, length);
     if (data == 0) {
         // replace any periods in the name with underscores in order to read variables set by the UI
         std::string str_name(name);
         size_t n_replaced = util::replace(str_name, ".", "_");
         if (n_replaced > 0) {
-            data = ssc_data_get_array(p_data, str_name.c_str(), length);
+            data = ssc_data_get_array_ep(p_data, str_name.c_str(), length);
         }
     }
 
@@ -52,13 +52,13 @@ SSCEXPORT ssc_number_t *ssc_data_t_get_array(ssc_data_t p_data, const char* name
 
 SSCEXPORT void ssc_data_t_set_array(ssc_data_t p_data, const char* name, ssc_number_t* pvalues, int length)
 {
-    ssc_data_set_array(p_data, name, pvalues, length);
+    ssc_data_set_array_ep(p_data, name, pvalues, length);
 
     // replace any periods in the name with underscores so UI equations can read value
     std::string str_name(name);
     size_t n_replaced = util::replace(str_name, ".", "_");
     if (n_replaced > 0) {
-        ssc_data_set_array(p_data, str_name.c_str(), pvalues, length);
+        ssc_data_set_array_ep(p_data, str_name.c_str(), pvalues, length);
     }
 }
 
@@ -178,7 +178,7 @@ double Land_min_calc(double land_min /*-*/, double h_tower /*m*/) {      // [m]
 
 double Csp_pt_sf_total_land_area(double csp_pt_sf_fixed_land_area /*acres*/, double land_area_base /*acres*/,
     double csp_pt_sf_land_overhead_factor /*-*/) {       // [acres]
-    
+
     return csp_pt_sf_fixed_land_area + land_area_base * csp_pt_sf_land_overhead_factor;
 }
 
@@ -196,7 +196,7 @@ double Csp_pt_sf_tower_height(double h_tower /*m*/) {        // [m]
 
 double C_atm_info(const util::matrix_t<ssc_number_t> &helio_positions /*m*/,
     double c_atm_0 /*-*/, double c_atm_1 /*-*/, double c_atm_2 /*-*/, double c_atm_3 /*-*/, double h_tower /*m*/) {  // [%]
-    
+
     double tht2 = h_tower * h_tower;
     std::size_t n_hel = helio_positions.nrows();
 
@@ -278,7 +278,7 @@ double Csp_pt_rec_htf_t_avg(double T_htf_cold_des /*C*/, double T_htf_hot_des /*
 
 double Csp_pt_rec_htf_c_avg(double csp_pt_rec_htf_t_avg /*C*/, int rec_htf /*-*/,
     const util::matrix_t<ssc_number_t> &field_fl_props /*-*/) {      // [kJ/kg-K]
-    
+
     HTFProperties htf_properties = GetHtfProperties(rec_htf, field_fl_props);
     return htf_properties.Cp(csp_pt_rec_htf_t_avg + 273.15);
 }

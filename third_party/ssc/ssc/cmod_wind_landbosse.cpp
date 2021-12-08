@@ -329,7 +329,7 @@ void cm_wind_landbosse::exec() {
     input_data.assign_match_case("hub_height_meters", *m_vartab->lookup("wind_turbine_hub_ht"));
     input_data.assign_match_case("rotor_diameter_m", *m_vartab->lookup("wind_turbine_rotor_diameter"));
 
-    std::string input_json = ssc_data_to_json(&input_data);
+    std::string input_json = ssc_data_to_json_ep(&input_data);
 	std::string input_dict_as_text = input_json;
 	std::replace(input_dict_as_text.begin(), input_dict_as_text.end(), '\"', '\'');
 
@@ -341,7 +341,7 @@ void cm_wind_landbosse::exec() {
 #endif
 
 	cleanOutputString(output_json);
-    auto output_data = static_cast<var_table*>(json_to_ssc_data(output_json.c_str()));
+    auto output_data = static_cast<var_table*>(json_to_ssc_data_ep(output_json.c_str()));
     if (output_data->is_assigned("error")){
         m_vartab->assign("errors", output_json);
         return;
