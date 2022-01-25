@@ -207,15 +207,19 @@ namespace AirLoopHVACDOAS {
 
 struct AirLoopHVACDOASData : BaseGlobalStruct
 {
+    //Initialization Data
     bool GetInputOnceFlag = true;
     bool getAirLoopMixerInputOnceFlag = true;
     bool getAirLoopSplitterInputOnceFlag = true;
     int numAirLoopDOAS = 0;
+    bool SummerDesignDayFlag = true;
+    bool WinterDesignDayFlag = true;
+
+    //Runtime Data
     std::vector<AirLoopHVACDOAS::AirLoopDOAS> airloopDOAS;
     std::vector<AirLoopHVACDOAS::AirLoopMixer> airloopMixer;
     std::vector<AirLoopHVACDOAS::AirLoopSplitter> airloopSplitter;
-    bool SummerDesignDayFlag = true;
-    bool WinterDesignDayFlag = true;
+
     void clear_state() override
     {
         this->GetInputOnceFlag = true;

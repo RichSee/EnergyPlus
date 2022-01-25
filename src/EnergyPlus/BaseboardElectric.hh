@@ -120,13 +120,18 @@ namespace BaseboardElectric {
 
 struct BaseboardElectricData : BaseGlobalStruct
 {
+    //Initialization Data
     int NumBaseboards = 0;
     bool getInputFlag = true;
-    EPVector<BaseboardElectric::BaseboardParams> Baseboard;
-    EPVector<BaseboardElectric::BaseboardNumericFieldData> BaseboardNumericFields;
-    bool MyOneTimeFlag = true;
     bool ZoneEquipmentListChecked = false; // True after the Zone Equipment List has been checked for items
     Array1D_bool MyEnvrnFlag;
+
+    //Runtime Data
+    EPVector<BaseboardElectric::BaseboardParams> Baseboard;
+    EPVector<BaseboardElectric::BaseboardNumericFieldData> BaseboardNumericFields;
+
+    //Remove
+    bool MyOneTimeFlag = true;
 
     void clear_state() override
     {

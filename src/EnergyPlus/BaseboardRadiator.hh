@@ -154,10 +154,12 @@ namespace BaseboardRadiator {
 
 struct BaseboardRadiatorData : BaseGlobalStruct
 {
-
+    //Initialization Data
     int NumBaseboards = 0;
     bool getInputFlag = true;
     bool ZoneEquipmentListChecked = false;
+
+    //Runtime Data
     Array1D<BaseboardRadiator::BaseboardParams> Baseboard;
     Array1D<BaseboardRadiator::BaseboardParamsNumericFieldData> BaseboardParamsNumericFields;
 

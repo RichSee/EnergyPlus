@@ -348,6 +348,7 @@ namespace BranchInputManager {
 
 struct BranchInputManagerData : BaseGlobalStruct
 {
+    //Initialization Data
     int NumOfBranchLists = 0;    // Number of Branch Lists found in IDF
     int NumOfBranches = 0;       // Number of Branches found in IDF
     int NumOfConnectorLists = 0; // Number of Connector Lists found in IDF
@@ -362,6 +363,7 @@ struct BranchInputManagerData : BaseGlobalStruct
     bool InvalidBranchDefinitions = false;
     bool GetBranchInputOneTimeFlag = true;
 
+    //Runtime Data
     Array1D<BranchInputManager::BranchListData> BranchList;    // Branch List data for each Branch List
     Array1D<BranchInputManager::BranchData> Branch;            // Branch Data for each Branch
     Array1D<BranchInputManager::ConnectorData> ConnectorLists; // Connector List data for each Connector List

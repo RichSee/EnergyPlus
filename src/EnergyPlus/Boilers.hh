@@ -197,8 +197,11 @@ namespace Boilers {
 
 struct BoilersData : BaseGlobalStruct
 {
+    //Initialization Data
     int numBoilers = 0;
     bool getBoilerInputFlag = true;
+
+    //Runtime Data
     Array1D<Boilers::BoilerSpecs> Boiler;
 
     void clear_state() override
