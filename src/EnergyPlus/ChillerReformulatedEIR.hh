@@ -285,8 +285,11 @@ namespace ChillerReformulatedEIR {
 
 struct ChillerReformulatedEIRData : BaseGlobalStruct
 {
+    //Initialization Data
     int NumElecReformEIRChillers = 0;
     bool GetInputREIR = true;
+
+    //Runtime Data
     Array1D<ChillerReformulatedEIR::ReformulatedEIRChillerSpecs> ElecReformEIRChiller;
 
     void clear_state() override

@@ -879,7 +879,6 @@ namespace ConvectionCoefficients {
 
 struct ConvectionCoefficientsData : BaseGlobalStruct
 {
-
     bool GetUserSuppliedConvectionCoeffs = true;  // Get user input first call for Init
     Real64 CubeRootOfOverallBuildingVolume = 0.0; // building meta data. cube root of the volume of all the zones
     Real64 RoofLongAxisOutwardAzimuth = 0.0;      // roof surfaces meta data. outward normal azimuth for longest roof edge

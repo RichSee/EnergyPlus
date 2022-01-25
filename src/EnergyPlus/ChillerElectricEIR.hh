@@ -261,8 +261,11 @@ namespace ChillerElectricEIR {
 
 struct ChillerElectricEIRData : BaseGlobalStruct
 {
+    //Initialization Data
     int NumElectricEIRChillers = 0;
     bool getInputFlag = true;
+
+    //Runtime Data
     Array1D<ChillerElectricEIR::ElectricEIRChillerSpecs> ElectricEIRChiller;
 
     void clear_state() override

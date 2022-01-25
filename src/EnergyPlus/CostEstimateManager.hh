@@ -150,7 +150,7 @@ namespace CostEstimateManager {
 
 struct CostEstimateManagerData : BaseGlobalStruct
 {
-
+    //Initialization Data
     bool GetCostInput = true;
     int NumLineItems = 0;        // number of cost estimate line items
     bool DoCostEstimate = false; // set to true if any cost estimating needed

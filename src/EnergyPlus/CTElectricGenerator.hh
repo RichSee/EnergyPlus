@@ -160,9 +160,11 @@ namespace CTElectricGenerator {
 
 struct CTElectricGeneratorData : BaseGlobalStruct
 {
-
+    //Initialization Data
     int NumCTGenerators = 0;
     bool getCTInputFlag = true;
+
+    //Runtime Data
     Array1D<CTElectricGenerator::CTGeneratorData> CTGenerator;
 
     void clear_state() override

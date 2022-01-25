@@ -330,8 +330,11 @@ namespace Construction {
 
 struct ConstructionData : BaseGlobalStruct
 {
-    Array1D<Construction::ConstructionProps> Construct;
+    //Initialization Data
     Array1D_int LayerPoint = Array1D<int>(Construction::MaxLayersInConstruct, 0);
+
+    //Runtime Data
+    Array1D<Construction::ConstructionProps> Construct;
 
     void clear_state() override
     {

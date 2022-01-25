@@ -238,7 +238,10 @@ namespace ChillerGasAbsorption {
 
 struct ChillerGasAbsorptionData : BaseGlobalStruct
 {
+    //Initialization Data
     bool getGasAbsorberInputs = true;
+
+    //Runtime Data
     Array1D<ChillerGasAbsorption::GasAbsorberSpecs> GasAbsorber;
 
     void clear_state() override

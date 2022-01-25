@@ -223,8 +223,11 @@ namespace ChillerAbsorption {
 
 struct ChillerAbsorberData : BaseGlobalStruct
 {
+    //Initialization Data
     int numAbsorbers = 0;
     bool getInput = true;
+
+    //Runtime Data
     Array1D<ChillerAbsorption::BLASTAbsorberSpecs> absorptionChillers;
 
     void clear_state() override

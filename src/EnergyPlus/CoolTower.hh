@@ -153,9 +153,11 @@ namespace CoolTower {
 
 struct CoolTowerData : BaseGlobalStruct
 {
-
+    //Initialization Data
     bool GetInputFlag = true;
     int NumCoolTowers = 0;
+
+    //Runtime Data
     Array1D<CoolTower::CoolTowerParams> CoolTowerSys;
 
     void clear_state() override

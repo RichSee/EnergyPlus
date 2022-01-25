@@ -242,7 +242,10 @@ namespace ChillerExhaustAbsorption {
 
 struct ChillerExhaustAbsorptionData : BaseGlobalStruct
 {
+    //Initialization Data
     bool Sim_GetInput = true;
+
+    //Runtime Data
     Array1D<ChillerExhaustAbsorption::ExhaustAbsorberSpecs> ExhaustAbsorber;
 
     void clear_state() override

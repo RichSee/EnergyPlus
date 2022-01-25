@@ -239,8 +239,11 @@ namespace ChillerIndirectAbsorption {
 
 struct ChillerIndirectAbsoprtionData : BaseGlobalStruct
 {
+    //Initialization Data
     int NumIndirectAbsorbers = 0;
     bool GetInput = true;
+
+    //Runtime Data
     Array1D<ChillerIndirectAbsorption::IndirectAbsorberSpecs> IndirectAbsorber;
 
     void clear_state() override

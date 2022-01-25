@@ -73,6 +73,7 @@ namespace CrossVentMgr {
 
 struct CrossVentMgrData : BaseGlobalStruct
 {
+    //Initialization Data
     Real64 HAT_J = 0.0; // HAT_J Convection Coefficient times Area times Temperature for Jet subzone
     Real64 HA_J = 0.0;  // HA_J  Convection Coefficient times Area for Jet subzone
     Real64 HAT_R = 0.0; // HAT_R Convection Coefficient times Area times Temperature for Recirculation subzone

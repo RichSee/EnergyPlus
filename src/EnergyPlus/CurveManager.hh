@@ -403,13 +403,16 @@ namespace CurveManager {
 
 struct CurveManagerData : BaseGlobalStruct
 {
+    //Initialization Data
     int NumCurves = 0;
     bool GetCurvesInputFlag = true;
     bool CurveValueMyBeginTimeStepFlag = false;
     bool FrictionFactorErrorHasOccurred = false;
-    Array1D<CurveManager::PerformanceCurveData> PerfCurve;
-    CurveManager::BtwxtManager btwxtManager;
     std::unordered_map<std::string, std::string> UniqueCurveNames;
+
+    //Runtime Data
+    Array1D<CurveManager::PerformanceCurveData> PerfCurve;
+    CurveManager::BtwxtManager btwxtManager; 
 
     void clear_state() override
     {

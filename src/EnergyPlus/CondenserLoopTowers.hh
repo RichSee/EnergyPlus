@@ -496,10 +496,13 @@ namespace CondenserLoopTowers {
 
 struct CondenserLoopTowersData : BaseGlobalStruct
 {
+    //Initialization Data
     int NumSimpleTowers = 0; // Number of similar towers
     bool GetInput = true;
-    Array1D<CondenserLoopTowers::CoolingTower> towers; // dimension to number of machines
     std::unordered_map<std::string, std::string> UniqueSimpleTowerNames;
+
+    //Runtime Data
+    Array1D<CondenserLoopTowers::CoolingTower> towers; // dimension to number of machines
 
     void clear_state() override
     {
