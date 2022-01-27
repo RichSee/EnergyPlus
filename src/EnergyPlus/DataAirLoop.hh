@@ -282,19 +282,21 @@ namespace DataAirLoop {
 
 struct DataAirLoopData : BaseGlobalStruct
 {
-
+    //Initialization Data
     int NumOASystems = 0;             // Number of Outdoor Air Systems
     bool AirLoopInputsFilled = false; // Set to TRUE after first pass through air loop
     Real64 LoopDXCoilRTF = 0.0;       // OnOff fan run time fraction in an HVAC Air Loop
 
     EPVector<DataAirLoop::AirLoopZoneEquipConnectData> AirToZoneNodeInfo;
     EPVector<DataAirLoop::AirLoopOutsideAirConnectData> AirToOANodeInfo;
-    EPVector<DataAirLoop::DefinePriAirSysAvailMgrs> PriAirSysAvailMgr;
     EPVector<DataAirLoop::AirLooptoZoneData> AirLoopZoneInfo;
     EPVector<DataAirLoop::AirLoopControlData> AirLoopControlInfo;
+    EPVector<DataAirLoop::AirLoopAFNData> AirLoopAFNInfo;
+
+    //Runtime Data
+    EPVector<DataAirLoop::DefinePriAirSysAvailMgrs> PriAirSysAvailMgr;
     EPVector<DataAirLoop::AirLoopFlowData> AirLoopFlow;
     EPVector<DataAirLoop::OutsideAirSysProps> OutsideAirSys;
-    EPVector<DataAirLoop::AirLoopAFNData> AirLoopAFNInfo;
 
     void clear_state() override
     {

@@ -162,7 +162,7 @@ namespace DataConvergParams {
 
 struct ConvergParamsData : BaseGlobalStruct
 {
-
+    //Initialization Data
     Real64 MinTimeStepSys = (1.0 / 60.0); // =1 minute
     Real64 MinTimeStepTol = 1.0e-4;       // = min allowable for ABS(1.-TimeStepSys/(MinTimeStepSys))
     Real64 MaxZoneTempDiff = 0.3;         // 0.3 C = (1% OF 300 C) = max allowable difference between
@@ -170,6 +170,7 @@ struct ConvergParamsData : BaseGlobalStruct
     int MaxPlantSubIterations = 8;        // Iteration Max for Plant Simulation sub iterations
     int MinPlantSubIterations = 2;        // Iteration Min for Plant Simulation sub iterations
 
+    //Runtime Data
     Array1D<DataConvergParams::HVACZoneInletConvergenceStruct> ZoneInletConvergence;
     Array1D<DataConvergParams::HVACAirLoopIterationConvergenceStruct> AirLoopConvergence;
     Array1D<DataConvergParams::PlantIterationConvergenceStruct> PlantConvergence;

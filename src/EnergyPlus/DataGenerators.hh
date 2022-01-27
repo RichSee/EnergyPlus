@@ -342,18 +342,21 @@ namespace DataGenerators {
 
 struct GeneratorsData : BaseGlobalStruct
 {
+    //Initialization Data
     int NumFuelConstit = 0;
     int NumGeneratorFuelSups = 0;
     int NumGensWDynamics = 0; // number of dynamics controls for generators
     Array1D<DataGenerators::GasPropertyDataStruct> GasPhaseThermoChemistryData;
     Array1D<DataGenerators::GeneratorFuelSupplyDataStruct> FuelSupply; // fuel supply (reused across various)
-    Array1D<DataGenerators::GeneratorDynamicsManagerStruct> GeneratorDynamics;
 
     int InletCWnode = 0; // cooling water inlet node ID
     bool InternalFlowControl = false;
     Real64 TcwIn = 0.0;          // inlet cooling water temperature (C)
     Real64 TrialMdotcw = 0.0;    // test or estimate of what the plant flows are going to be (kg/s)
     Real64 LimitMinMdotcw = 0.0; // lower limit for cooling water flow for generatior operation (kg/s)
+    
+    //Runtime Data
+    Array1D<DataGenerators::GeneratorDynamicsManagerStruct> GeneratorDynamics;
 
     void clear_state() override
     {

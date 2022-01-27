@@ -256,7 +256,10 @@ namespace DataContaminantBalance {
 
 struct ContaminantBalanceData : BaseGlobalStruct
 {
+    //Initialization Data
+    int NumContControlledZones = 0;
 
+    //Runtime Data
     Array1D<Real64> ZoneCO2SetPoint;
     Array1D<Real64> CO2PredictedRate;
 
@@ -288,7 +291,7 @@ struct ContaminantBalanceData : BaseGlobalStruct
 
     Array1D<Real64> CONTRAT;           // Zone CO2 at the previous time step used in Exact and Euler method
     Array1D<Real64> MixingMassFlowCO2; // Mixing MASS FLOW * CO2
-    int NumContControlledZones = 0;
+
     Real64 OutdoorCO2 = 0.0; // Outdoor CO2 level
 
     Array1D<Real64> ZoneAirDensityCO; // Mixing MASS FLOW * CO2

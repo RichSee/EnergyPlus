@@ -438,7 +438,7 @@ namespace DataBSDFWindow {
 
 struct BSDFWindowData : BaseGlobalStruct
 {
-
+    //Initialization Data
     int TotComplexFenStates = 0; // Number of complex fenestration construction definitions
     int FirstBSDF = 0;           // Location of first complex fenestration construction definition in Constr array
     int MaxBkSurf = 20;          // was 20    Maximum number of back surfaces in solar overlap & interior solar distribution
@@ -447,6 +447,8 @@ struct BSDFWindowData : BaseGlobalStruct
     // calculation
     Array2D<Vector3<Real64>> SUNCOSTS = Array2D<Vector3<Real64>>(60, 24); // Timestep values of solar direction cosines
     Array2D<Real64> BSDFTempMtrx;                                         // Temporary matrix for holding axisymmetric input
+
+    //Runtime Data ?
     EPVector<DataBSDFWindow::BSDFWindowGeomDescr> ComplexWind;            // Window geometry structure: set in CalcPerSolarBeam/SolarShading
 
     void clear_state() override

@@ -142,9 +142,11 @@ namespace DataDaylightingDevices {
 
 struct DataDaylightingDevicesData : BaseGlobalStruct
 {
-
+    //Initialization Data
     int NumOfTDDPipes = 0; // Number of TDD pipes in the input file
     int NumOfShelf = 0;    // Number of daylighting shelves in the input file
+
+    //Runtime Data
     Array1D<DataDaylightingDevices::TDDPipeData> TDDPipe;
     Array1D<DataDaylightingDevices::ShelfData> Shelf;
 

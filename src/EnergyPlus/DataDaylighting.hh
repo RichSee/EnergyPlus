@@ -307,25 +307,29 @@ namespace DataDaylighting {
 
 struct DaylightingData : BaseGlobalStruct
 {
-
+    //Initialization Data
     int totDaylightingControls = 0;
     int TotRefPoints = 0;
-    int maxRefPointsPerControl = 0;
     int TotIllumMaps = 0;
-    bool mapResultsToReport = false; // used when only partial hour has "sun up"
-    bool mapResultsReported = false; // when no map results are ever reported this will still be false
     char MapColSep;                  // Character for separating map columns (tab, space, comma)
     bool DFSReportSizingDays = false;
     bool DFSReportAllShadowCalculationDays = false;
     int TotDElightCFS = 0;
 
     Array1D<DataDaylighting::EnclDaylightCalc> enclDaylight;
-    Array1D<DataDaylighting::ZoneDaylightCalc> ZoneDaylight;
-    Array1D<DataDaylighting::DaylightingControl> daylightControl;
     Array1D<DataDaylighting::IllumMapData> IllumMap;
     Array1D<DataDaylighting::MapCalcData> IllumMapCalc;
     Array1D<DataDaylighting::RefPointData> DaylRefPt;
     Array1D<DataDaylighting::DElightComplexFeneData> DElightComplexFene;
+
+    //Runtime Data
+    int maxRefPointsPerControl = 0;
+    bool mapResultsToReport = false; // used when only partial hour has "sun up"
+    bool mapResultsReported = false; // when no map results are ever reported this will still be false
+
+    Array1D<DataDaylighting::ZoneDaylightCalc> ZoneDaylight;
+    Array1D<DataDaylighting::DaylightingControl> daylightControl;
+
     Array1D<Real64> spacePowerReductionFactor; // Average electric power reduction factor for space due to daylighting
 
     void clear_state() override

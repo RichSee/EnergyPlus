@@ -129,7 +129,7 @@ namespace DataBranchNodeConnections {
 
 struct BranchNodeConnectionsData : BaseGlobalStruct
 {
-
+    //Initialization Data
     int NumCompSets = 0;             // Number of Component Sets found in branches
     int NumNodeConnectionErrors = 0; // Count of node connection errors
     int NumOfNodeConnections = 0;

@@ -116,8 +116,10 @@ namespace DataBranchAirLoopPlant {
 
 struct DataBranchAirLoopPlantData : BaseGlobalStruct
 {
-
+    //Initialization Data
     int NumPressureCurves = 0;
+
+    //Runtime Data
     Array1D<DataBranchAirLoopPlant::PlantPressureCurveData> PressureCurve;
 
     void clear_state() override

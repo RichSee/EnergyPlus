@@ -146,8 +146,10 @@ namespace DataDefineEquip {
 
 struct DefineEquipData : BaseGlobalStruct
 {
-
+    //Initialization Data
     int NumAirDistUnits = 0;
+
+    //Runtime Data
     Array1D<DataDefineEquip::ZoneAirEquip> AirDistUnit; // Used to specify zone related
 
     void clear_state() override

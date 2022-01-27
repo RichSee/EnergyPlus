@@ -211,7 +211,7 @@ namespace DataErrorTracking {
 
 struct ErrorTrackingData : BaseGlobalStruct
 {
-    Array1D<DataErrorTracking::RecurringErrorData> RecurringErrors;
+    //Initialization Data
     Array1D_int MatchCounts;
     bool AbortProcessing = false;            // Flag used to if currently in "abort processing"
     int NumRecurringErrors = 0;              // Number of stored recurring error messages
@@ -233,6 +233,9 @@ struct ErrorTrackingData : BaseGlobalStruct
     bool AskForPlantCheckOnAbort = false;    // flag used to tell if plant structure can be checked
     bool ExitDuringSimulations = false;      // flag used to tell if program is in simulation mode when fatal occurs
     std::string LastSevereError;
+
+    //Runtime Data
+    Array1D<DataErrorTracking::RecurringErrorData> RecurringErrors;
 
     ErrorTrackingData()
     {

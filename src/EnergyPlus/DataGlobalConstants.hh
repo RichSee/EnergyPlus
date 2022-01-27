@@ -192,6 +192,7 @@ namespace DataGlobalConstants {
 
 struct DataGlobalConstantsData : BaseGlobalStruct
 {
+    //Initialization Data
     std::map<DataGlobalConstants::EndUse, int> iEndUse = {
         {DataGlobalConstants::EndUse::Heating, 1},
         {DataGlobalConstants::EndUse::Cooling, 2},
