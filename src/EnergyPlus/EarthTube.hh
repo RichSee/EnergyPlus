@@ -173,8 +173,11 @@ namespace EarthTube {
 
 struct EarthTubeData : BaseGlobalStruct
 {
+    //Initialization Data
     int TotEarthTube = 0; // Total EarthTube Statements in input
     bool GetInputFlag = true;
+
+    //Runtime Data
     EPVector<EarthTube::EarthTubeData> EarthTubeSys;
     EPVector<EarthTube::EarthTubeZoneReportVars> ZnRptET;
 

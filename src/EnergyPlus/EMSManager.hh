@@ -209,10 +209,12 @@ void SetupEMSInternalVariable(
 
 struct EMSManagerData : BaseGlobalStruct
 {
-
+    //Initialization Data
     bool GetEMSUserInput = true; // Flag to prevent input from being read multiple times
     bool ZoneThermostatActuatorsHaveBeenSetup = false;
     bool FinishProcessingUserInput = true; // Flag to indicate still need to process input
+
+    //Runtime Data
     bool lDummy = false;                   // dummy pointer location
     bool lDummy2 = false;                  // dummy pointer location
 

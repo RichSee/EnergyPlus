@@ -741,7 +741,7 @@ namespace EconomicTariff {
 
 struct EconomicTariffData : BaseGlobalStruct
 {
-
+    //Initialization Data
     int numEconVar = 0;
     int sizeEconVar = 0;
 

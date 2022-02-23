@@ -460,6 +460,7 @@ namespace EconomicLifeCycleCost {
 
 struct EconomicLifeCycleCostData : BaseGlobalStruct
 {
+    //Initialization Data
     // related to LifeCycleCost:Parameters
     bool LCCparamPresent = false; // If a LifeCycleCost:Parameters object is present
     std::string LCCname;          // Name

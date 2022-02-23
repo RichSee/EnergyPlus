@@ -835,7 +835,7 @@ Real64 checkUserEfficiencyInput(EnergyPlusData &state, Real64 userInputValue, st
 
 struct ElectPwrSvcMgrData : BaseGlobalStruct
 {
-
+    //Runtime Data
     std::unique_ptr<ElectricPowerServiceManager> facilityElectricServiceObj;
 
     void clear_state() override

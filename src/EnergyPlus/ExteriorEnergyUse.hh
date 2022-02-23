@@ -155,14 +155,16 @@ namespace ExteriorEnergyUse {
 
 struct ExteriorEnergyUseData : BaseGlobalStruct
 {
-
+    //Initialization Data
     int NumExteriorLights = 0;                                            // Number of Exterior Light Inputs
     int NumExteriorEqs = 0;                                               // Number of Exterior Equipment Inputs
-    Array1D<ExteriorEnergyUse::ExteriorLightUsage> ExteriorLights;        // Structure for Exterior Light reporting
-    Array1D<ExteriorEnergyUse::ExteriorEquipmentUsage> ExteriorEquipment; // Structure for Exterior Equipment Reporting
     std::unordered_map<std::string, std::string> UniqueExteriorEquipNames;
     bool GetExteriorEnergyInputFlag = true; // First time, input is "gotten"
     Real64 sumDesignLevel = 0.0;            // for predefined report of design level total
+
+    //Runtime Data
+    Array1D<ExteriorEnergyUse::ExteriorLightUsage> ExteriorLights;        // Structure for Exterior Light reporting
+    Array1D<ExteriorEnergyUse::ExteriorEquipmentUsage> ExteriorEquipment; // Structure for Exterior Equipment Reporting
 
     void clear_state() override
     {

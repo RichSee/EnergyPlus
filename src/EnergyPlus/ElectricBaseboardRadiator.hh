@@ -158,10 +158,16 @@ namespace ElectricBaseboardRadiator {
 
 struct ElectricBaseboardRadiatorData : BaseGlobalStruct
 {
+    //Initialization Data
     std::string const cCMO_BBRadiator_Electric = "ZoneHVAC:Baseboard:RadiantConvective:Electric";
 
     // Object Data
     int NumElecBaseboards = 0;
+    bool GetInputFlag = true; // One time get input flag
+    bool MyOneTimeFlag = true;
+    bool ZoneEquipmentListChecked = false; // True after the Zone Equipment List has been checked for items
+
+    //Runtime Data
     Array1D<Real64> QBBElecRadSource;     // Need to keep the last value in case we are still iterating
     Array1D<Real64> QBBElecRadSrcAvg;     // Need to keep the last value in case we are still iterating
     Array1D<Real64> ZeroSourceSumHATsurf; // Equal to the SumHATsurf for all the walls in a zone with no source
@@ -173,9 +179,6 @@ struct ElectricBaseboardRadiatorData : BaseGlobalStruct
     Array1D_bool CheckEquipName;
     Array1D<ElectricBaseboardRadiator::ElecBaseboardParams> ElecBaseboard;
     Array1D<ElectricBaseboardRadiator::ElecBaseboardNumericFieldData> ElecBaseboardNumericFields;
-    bool GetInputFlag = true; // One time get input flag
-    bool MyOneTimeFlag = true;
-    bool ZoneEquipmentListChecked = false; // True after the Zone Equipment List has been checked for items
 
     Array1D_bool MyEnvrnFlag;
     void clear_state() override

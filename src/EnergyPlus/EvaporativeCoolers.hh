@@ -506,19 +506,21 @@ namespace EvaporativeCoolers {
 
 struct EvaporativeCoolersData : BaseGlobalStruct
 {
-
+    //Initialization Data
     bool GetInputEvapComponentsFlag = true; // Flag set to make sure you get input once
     int NumEvapCool = 0;                    // The Number of Evap Coolers found in the Input
     Array1D_bool CheckEquipName;
     int NumZoneEvapUnits = 0;
     Array1D_bool CheckZoneEvapUnitName;
     bool GetInputZoneEvapUnit = true;
+    bool MySetPointCheckFlag = true;
+    bool ZoneEquipmentListChecked = false;
+
+    //Runtime Data
     Array1D<EvaporativeCoolers::EvapConditions> EvapCond;
     Array1D<EvaporativeCoolers::ZoneEvapCoolerUnitStruct> ZoneEvapUnit;
     Array1D<EvaporativeCoolers::ZoneEvapCoolerUnitFieldData> ZoneEvapCoolerUnitFields;
     std::unordered_map<std::string, std::string> UniqueEvapCondNames;
-    bool MySetPointCheckFlag = true;
-    bool ZoneEquipmentListChecked = false;
 
     void clear_state() override
     {

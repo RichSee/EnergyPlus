@@ -337,6 +337,7 @@ namespace ExternalInterface {
 
 struct ExternalInterfaceData : BaseGlobalStruct
 {
+    //Initialization Data
     Real64 tComm = 0.0;
     Real64 tStop = 3600.0;
     Real64 tStart = 0.0;
@@ -344,10 +345,6 @@ struct ExternalInterfaceData : BaseGlobalStruct
     bool FlagReIni = false;
     fs::path FMURootWorkingFolder;
     int nInKeys = 3; // Number of input variables available in ExternalInterface (=highest index* number)
-
-    Array1D<ExternalInterface::FMUType> FMU;                                // Variable Types structure
-    Array1D<ExternalInterface::FMUType> FMUTemp;                            // Variable Types structure
-    Array1D<ExternalInterface::checkFMUInstanceNameType> checkInstanceName; // Variable Types structure for checking instance names
 
     int NumExternalInterfaces = 0;               // Number of ExternalInterface objects
     int NumExternalInterfacesBCVTB = 0;          // Number of BCVTB ExternalInterface objects
@@ -360,13 +357,6 @@ struct ExternalInterfaceData : BaseGlobalStruct
     bool haveExternalInterfaceFMUExport = false; // Flag for FMU-Export interface
     int simulationStatus = 1; // Status flag. Used to report during which phase an error occurred. (1=initialization, 2=time stepping)
 
-    Array1D<int> keyVarIndexes;                      // Array index for specific key name
-    Array1D<OutputProcessor::VariableType> varTypes; // Types of variables in keyVarIndexes
-    Array1D<int> varInd;                             // Index of ErlVariables for ExternalInterface
-    int socketFD = -1;                               // socket file descriptor
-    bool ErrorsFound = false;                        // Set to true if errors are found
-    bool noMoreValues = false;                       // Flag, true if no more values will be sent by the server
-
     Array1D<std::string> varKeys;     // Keys of report variables used for data exchange
     Array1D<std::string> varNames;    // Names of report variables used for data exchange
     Array1D<int> inpVarTypes;         // Names of report variables used for data exchange
@@ -375,8 +365,12 @@ struct ExternalInterfaceData : BaseGlobalStruct
     bool configuredControlPoints = false; // True if control points have been configured
     bool useEMS = false;                  // Will be set to true if ExternalInterface writes to EMS variables or actuators
 
-    bool firstCall = true;
-    bool showContinuationWithoutUpdate = true;
+    fs::path const socCfgFilPath = "socket.cfg"; // socket configuration file
+    std::unordered_map<std::string, std::string> UniqueFMUInputVarNames;
+
+    int nOutVal; // Number of output values (E+ -> ExternalInterface)
+    int nInpVar; // Number of input values (ExternalInterface -> E+)
+
     bool GetInputFlag = true; // First time, input is "gotten"
     bool InitExternalInterfacefirstCall = true;
     bool FirstCallGetSetDoStep = true; // Flag to check when External Interface is called first time
@@ -384,13 +378,21 @@ struct ExternalInterfaceData : BaseGlobalStruct
     bool FirstCallDesignDays = true;   // Flag fo first call during warmup
     bool FirstCallWUp = true;          // Flag fo first call during warmup
     bool FirstCallTStep = true;        // Flag for first call during time stepping
+
+    //Runtime Data
+    Array1D<ExternalInterface::FMUType> FMU;                                // Variable Types structure
+    Array1D<ExternalInterface::FMUType> FMUTemp;                            // Variable Types structure
+    Array1D<ExternalInterface::checkFMUInstanceNameType> checkInstanceName; // Variable Types structure for checking instance names
+
+    Array1D<int> keyVarIndexes;                      // Array index for specific key name
+    Array1D<OutputProcessor::VariableType> varTypes; // Types of variables in keyVarIndexes
+    Array1D<int> varInd;                             // Index of ErlVariables for ExternalInterface
+    int socketFD = -1;                               // socket file descriptor
+    bool ErrorsFound = false;                        // Set to true if errors are found
+    bool noMoreValues = false;                       // Flag, true if no more values will be sent by the server
+    bool firstCall = true;
+    bool showContinuationWithoutUpdate = true;
     int fmiEndSimulation = 0;          // Flag to indicate end of simulation
-
-    fs::path const socCfgFilPath = "socket.cfg"; // socket configuration file
-    std::unordered_map<std::string, std::string> UniqueFMUInputVarNames;
-
-    int nOutVal; // Number of output values (E+ -> ExternalInterface)
-    int nInpVar; // Number of input values (ExternalInterface -> E+)
 
     void clear_state() override
     {

@@ -291,11 +291,13 @@ namespace EvaporativeFluidCoolers {
 
 struct EvaporativeFluidCoolersData : BaseGlobalStruct
 {
-
+    //Initialization Data
     bool GetEvapFluidCoolerInputFlag = true;
     int NumSimpleEvapFluidCoolers = 0;                                            // Number of similar evaporative fluid coolers
-    Array1D<EvaporativeFluidCoolers::EvapFluidCoolerSpecs> SimpleEvapFluidCooler; // dimension to number of machines
     std::unordered_map<std::string, std::string> UniqueSimpleEvapFluidCoolerNames;
+
+    //Runtime Data
+    Array1D<EvaporativeFluidCoolers::EvapFluidCoolerSpecs> SimpleEvapFluidCooler; // dimension to number of machines
 
     void clear_state() override
     {

@@ -93,27 +93,16 @@ namespace EcoRoofManager {
 
 struct EcoRoofManagerData : BaseGlobalStruct
 {
-
-    Real64 CumRunoff; // Cumulative runoff, updated each time step (m) mult by roof area to get volume
-    Real64 CumET;     // Cumulative evapotranspiration from soil and plants (m)
-    Real64 CumPrecip;
-    Real64 CumIrrigation; // Cumulative irrigation, updated each time step (m) mult by roof area to get volume
-    Real64 CurrentRunoff;
-    Real64 CurrentET;
-    Real64 CurrentPrecipitation; // units of (m) per timestep
-    Real64 CurrentIrrigation;    // units of (m) per timestep
-
-    Real64 Tfold; // leaf temperature from the previous time step
-    Real64 Tgold; // ground temperature from the previous time step
+    //Initialization Data
     bool EcoRoofbeginFlag = true;
     bool CalcEcoRoofMyEnvrnFlag = true;
-
     // static variables extracted from functions
     int FirstEcoSurf = 0;             // Indicates lowest numbered surface that is an ecoroof, used to determine WHEN to updatesoilProps...
     bool QuickConductionSurf = false; // indicator for quick conduction surface
     Real64 LAI = 0.2;                 // Leaf area index
     Real64 epsilonf = 0.95;           // Leaf Emisivity
     Real64 epsilong = 0.95;           // Soil Emisivity
+    Real64 Zf = 0.2;                  // Height of plants (m)
     Real64 Alphag = 0.3;              // Ground Albedo
     Real64 Alphaf = 0.2;              // Leaf Albedo (reflectivity to solar radiation)
     Real64 e0 = 2.0;                  // Windless lower limit of exchange coefficient (from FASST docs)
@@ -121,16 +110,27 @@ struct EcoRoofManagerData : BaseGlobalStruct
     Real64 Pa = 101325.0;             // Atmospheric Pressure (PA)
     Real64 Tg = 10.0;                 // Ground Surface temperature C ***** FROM PREVIOUS TIME STEP
     Real64 Tf = 10.0;                 // Leaf temperature C ***** FROM PREVIOUS TIME STEP
-    Real64 Zf = 0.2;                  // Height of plants (m)
+    Real64 MoistureResidual =
+           0.05;                      // m^3/m^3. Residual & maximum water contents are unique to each material. See Frankenstein et al (2004b) for data.
+    Real64 MoistureMax = 0.5;      // Maximum volumetric moisture content (porosity) m^3/m^3
+    Real64 StomatalResistanceMin = 0.0; // s/m . ! Minimum stomatal resistance is unique for each veg. type.
+    Real64 SoilThickness = 0.2;    // Soil thickness (m)
+    Real64 TopDepth = 0.0;  // Thickness of "near-surface" soil layer
+    Real64 RootDepth = 0.0; // Thickness of "root zone" soil layer //Autodesk Was used uninitialized
+    // Note TopDepth+RootDepth = thickness of ecoroof soil layer
+    Real64 TimeStepZoneSec = 0.0;               // Seconds per TimeStep
+    Real64 DryCond = 0.0;                       // Dry soil value of conductivity
+    Real64 DryDens = 0.0;                       // Dry soil value of density
+    Real64 DryAbsorp = 0.0;                     // Dry soil value of solar absorptance (1-albedo)
+    Real64 DrySpecHeat = 0.0;                   // Dry soil value of specific heat
+    bool UpdatebeginFlag = true;                // one time flag
+
+    //Runtime Data
+
     // DJS Oct 2007 release - note I got rid of the initialization of moisture and meanrootmoisture here as these
     // values are now set at beginning of each new DD and each new warm-up loop.
     Real64 Moisture = 0.0; // m^3/m^3.The moisture content in the soil is the value provided by a user
-    Real64 MoistureResidual =
-        0.05;                      // m^3/m^3. Residual & maximum water contents are unique to each material. See Frankenstein et al (2004b) for data.
-    Real64 MoistureMax = 0.5;      // Maximum volumetric moisture content (porosity) m^3/m^3
     Real64 MeanRootMoisture = 0.0; // Mean value of root moisture m^3/m^3
-    Real64 SoilThickness = 0.2;    // Soil thickness (m)
-    Real64 StomatalResistanceMin = 0.0; // s/m . ! Minimum stomatal resistance is unique for each veg. type.
     Real64 f3 = 1.0;                    // As the value of gd for tall grass is 0, then f3 = 1
     // ECMWF 2002 CY25R1 report has gd=0.0 for all veg except trees where gd=0.03.
     Real64 Zog = 0.001;     // Ground roughness length scale (m)
@@ -144,15 +144,7 @@ struct EcoRoofManagerData : BaseGlobalStruct
     Real64 sensibleg = 0.0; // sensible heat flux TO ground (w/m^2) DJS Jan 2011
     Real64 Lg = 0.0;        // latent heat flux from ground surface
     Real64 Vfluxg = 0.0;    // Water evapotr. rate associated with latent heat from ground surface [m/s]
-    Real64 TopDepth = 0.0;  // Thickness of "near-surface" soil layer
-    Real64 RootDepth = 0.0; // Thickness of "root zone" soil layer //Autodesk Was used uninitialized
-    // Note TopDepth+RootDepth = thickness of ecoroof soil layer
-    Real64 TimeStepZoneSec = 0.0;               // Seconds per TimeStep
-    Real64 DryCond = 0.0;                       // Dry soil value of conductivity
-    Real64 DryDens = 0.0;                       // Dry soil value of density
-    Real64 DryAbsorp = 0.0;                     // Dry soil value of solar absorptance (1-albedo)
-    Real64 DrySpecHeat = 0.0;                   // Dry soil value of specific heat
-    bool UpdatebeginFlag = true;                // one time flag
+
     Real64 CapillaryPotentialTop = -3.8997;     // This variable keeps track of the capillary potential of the soil in both layers and time (m)
     Real64 CapillaryPotentialRoot = -3.8997;    // This variable keeps track of the capillary potential of the soil in both layers and time (m)
     Real64 SoilHydroConductivityTop = 8.72e-6;  // This is the soil water conductivity in the soil (m/s)
@@ -164,6 +156,17 @@ struct EcoRoofManagerData : BaseGlobalStruct
     Real64 RelativeSoilSaturationRoot = 0.0;
     Real64 TestMoisture = 0.15; // This makes sure that the moisture cannot change by too much in each step
     int ErrIndex = 0;
+
+    Real64 CumRunoff; // Cumulative runoff, updated each time step (m) mult by roof area to get volume
+    Real64 CumET;     // Cumulative evapotranspiration from soil and plants (m)
+    Real64 CumPrecip;
+    Real64 CumIrrigation; // Cumulative irrigation, updated each time step (m) mult by roof area to get volume
+    Real64 CurrentRunoff;
+    Real64 CurrentET;
+    Real64 CurrentPrecipitation; // units of (m) per timestep
+    Real64 CurrentIrrigation;    // units of (m) per timestep
+    Real64 Tfold; // leaf temperature from the previous time step
+    Real64 Tgold; // ground temperature from the previous time step
 
     void clear_state() override
     {
