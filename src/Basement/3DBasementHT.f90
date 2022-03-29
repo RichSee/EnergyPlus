@@ -9941,7 +9941,7 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
              IF (CVG) THEN
                WRITE (GroundTemp,*) RSKY, RHOA*CPA*DH, RHOA*CPA*DW, DODPG
                WRITE (GroundTemp,*) (TG(COUNT1), COUNT1=0,NZBG)
-               WRITE (DebugOutFile,*) 'RHOA=',RHOA,' CPA=', CPA,' DH=', DH,' DW=', DW
+               WRITE (DebugOutFile,*) 'CalcTearth: RHOA=',RHOA,' CPA=', CPA,' DH=', DH,' DW=', DW
              END IF
 !*** COMPUTE THE SUM OF HOURLY GROUND TEMPERATURES FOR ONE DAY
              DO COUNT1=0,NZBG
@@ -10156,10 +10156,10 @@ SUBROUTINE CalcHeatMassTransCoeffs (VEGHTCM,WND,AVGWND,TDB,TG,DH,DW)
 !*** SPEED IS ZERO, USE DAILY AVERAGE WIND)
      IF (WND.EQ.0.) THEN
        WND2=AVGWND*(LOG(200.d0-ZEROD)/ZOM)/(LOG(1000.d0-ZEROD)/ZOM)
-       ! WRITE (DebugOutFile,*) ' AVGWND=', AVGWND,' ZOM=', ZOM
+       WRITE (DebugOutFile,*) ' AVGWND=', AVGWND,' ZOM=', ZOM
      ELSE
        WND2=WND*(LOG(200.d0-ZEROD)/ZOM)/(LOG(1000.d0-ZEROD)/ZOM)
-       ! WRITE (DebugOutFile,*) ' WND=', WND,' ZOM=', ZOM
+       WRITE (DebugOutFile,*) ' WND=', WND,' ZOM=', ZOM
      END IF
 
 !*** COMPUTE THE NEUTRAL STABILITY MOMENTUM TRANSFER COEFFICIENT
@@ -10445,6 +10445,9 @@ SUBROUTINE TRIDI1D (A,B,C,X,R,N)
      X(1)=R(1)
      DO COUNT1=2,N
        X(COUNT1)=R(COUNT1)-A(COUNT1)*X(COUNT1-1)
+       IF (isnan(X(COUNT1))) THEN
+         WRITE (DebugOutFile,*) ' TRIDI1D: X(COUNT1)=', COUNT1,' X(Count1)=', X(COUNT1), ' R(COUNT1)=', R(COUNT1), ' A(COUNT1)=', A(COUNT1)
+       ENDIF
      END DO
 END SUBROUTINE TRIDI1D
 
