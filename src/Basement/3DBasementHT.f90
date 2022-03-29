@@ -9766,6 +9766,7 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
 !*** CONSTANT IN NEGATIVE CELL DIRECTION
 !!     REWIND (Weather)
 
+     WRITE (DebugOutFile,*) ' CalcTearth A: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
      DO COUNT1=1,NZBG-1
        CONST(COUNT1,1)=TCOND*3600.d0/SoilDens/CG/DZ(COUNT1)/DZP(COUNT1-1)
        IF (isnan(CONST(COUNT1,1))) THEN
@@ -9791,6 +9792,7 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
 
 !*** ESTIMATE CONDUCTION TO GROUND FOR FIRST STEP OF CALCULATION
      GOLD=TCOND*(TG(0)-TG(1))/DZP(0)
+     WRITE (DebugOutFile,*) ' CalcTearth B: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
 
 !*** POSITION BLAST ASCII WEATHER FILE
 !     CALL SkipHeader
@@ -9850,6 +9852,7 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
 
 !*** CALCULATE CONVECTIVE HEAT & MASS TRANSFER COEFFICIENTS DH AND DW
              CALL CalcHeatMassTransCoeffs (VHT,WND(IHR),AVGWND,TDB(IHR),TG(0),DH,DW)
+     WRITE (DebugOutFile,*) ' CalcTearth C: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
 
 !*** CALCULATE THE DIRECT SOLAR RADIATION INCIDENT ON A HORIZONTAL
 !*** AND ON A VERTICAL SURFACE, RDIRH AND RDIRV, RESPECTIVELY.
@@ -9878,6 +9881,7 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
                C(II)=-CONST(COUNT1,2)
                R(II)=TG(COUNT1)
              END DO
+     WRITE (DebugOutFile,*) ' CalcTearth D: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
 !*** LOWER BOUNDARY (2 CASES:  FIXED TEMPERATURE (FIXBC=T) AND
 !*** ZERO HEAT FLUX (FIXBC=F))
              IF (.not. SameString(FIXBC,'FALSE')) THEN
@@ -9889,6 +9893,7 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
                B(NZBG)=1.+CONST(NZBG-1,1)
                R(NZBG)=TG(NZBG-1)
              END IF
+     WRITE (DebugOutFile,*) ' CalcTearth E: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
 !*** UPPER BOUNDARY (GROUND SURFACE)
 !*** CALCULATE G(T)
 !*** SKY RADIATION (RSKY) FROM ANGSTROM/GEIGER EQUATION
@@ -9936,9 +9941,11 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
              C(1)=-CONST(0,2)
 !*** SOLVE SYSTEM WITH TRIDIAGONAL MATRIX ALGORITHM
              CALL TRIDI1D (A,B,C,X,R,NZBG)
+     WRITE (DebugOutFile,*) ' CalcTearth F: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
              DO COUNT1=0,NZBG-1
                TG(COUNT1)=X(COUNT1+1)
              END DO
+     WRITE (DebugOutFile,*) ' CalcTearth G: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
              IF (SameString(FIXBC,'FALSE')) TG(NZBG)=TG(NZBG-1)
 !*** IF TEMPERATURE FIELD HAS CONVERGED, RESULTS ARE WRITTEN TO
 !*** THE BOUNDARY CONDITION FILE (RSKY, CONVECTIVE HEAT AND MASS
