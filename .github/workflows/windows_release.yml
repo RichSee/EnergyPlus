@@ -16,16 +16,12 @@ jobs:
       # fail-fast: Default is true, switch to false to allow one platform to fail and still run others
       fail-fast: false
       matrix:
-        arch: [x64, x86]
+        arch: [x64]
         include:
         - arch: x64
           allow_failure: false
           vs-generator: x64
           package-arch: x86_64
-        - arch: x86
-          allow_failure: false
-          vs-generator: Win32
-          package-arch: i386
 
     steps:
     - uses: actions/checkout@v2
@@ -54,7 +50,7 @@ jobs:
     - name: Build Package
       working-directory: ./build
       shell: bash
-      run: cmake --build . --target Basement -j 2 --config $BUILD_TYPE
+      run: cmake --build . --target Basement_build -j 2 --config $BUILD_TYPE
 
     - name: Upload Basement
       uses: actions/upload-artifact@v2
