@@ -11932,6 +11932,7 @@ IMPLICIT NONE
            ELSE
              DZACT(COUNT3)=DZINIT(COUNT3)
            END IF
+           WRITE (DebugOutFile,*) ' CalcDZmin A: COUNT3=', COUNT3, ' DZINIT(COUNT3)=', DZINIT(COUNT3), ' DZACT(COUNT3)=', DZACT(COUNT3)
          END DO
        END DO
      END DO
@@ -11947,7 +11948,7 @@ IMPLICIT NONE
        ELSE
          ZFACE(COUNT3)=ZFACEINIT(COUNT3)
        END IF
-       WRITE (DebugOutFile,*) ' CalcDZmin: COUNT3=', COUNT3, ' ZFACE(COUNT3)=', ZFACE(COUNT3)
+       WRITE (DebugOutFile,*) ' CalcDZmin B: COUNT3=', COUNT3, ' ZFACE(COUNT3)=', ZFACE(COUNT3)
      END DO
      RETURN
 END SUBROUTINE  CalcDZmin
