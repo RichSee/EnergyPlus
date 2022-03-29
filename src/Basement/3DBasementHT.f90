@@ -9770,23 +9770,23 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
      WRITE (DebugOutFile,*) ' CalcTearth A: X(NZBG)=', X(NZBG), ' R(NZBG)=', R(NZBG), ' A(NZBG)=', A(NZBG), ' TG(NZBG)=', TG(NZBG), ' DH=', DH
      DO COUNT1=1,NZBG-1
        CONST(COUNT1,1)=TCOND*3600.d0/SoilDens/CG/DZ(COUNT1)/DZP(COUNT1-1)
-       IF (isnan(CONST(COUNT1,1))) THEN
-         WRITE (DebugOutFile,*) ' CalcTearth: COUNT1=', COUNT1,' CONST(COUNT1,1)=', CONST(COUNT1,1), ' TCOND=', TCOND, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(COUNT1)=', DZ(COUNT1), ' DZP(COUNT1-1)=', DZP(COUNT1-1)
-       ENDIF
+       !IF (isnan(CONST(COUNT1,1))) THEN
+         WRITE (DebugOutFile,*) ' CalcTearth A1: COUNT1=', COUNT1,' CONST(COUNT1,1)=', CONST(COUNT1,1), ' TCOND=', TCOND, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(COUNT1)=', DZ(COUNT1), ' DZP(COUNT1-1)=', DZP(COUNT1-1)
+       !ENDIF
      END DO
 !*** CONSTANTS IN POSITIVE CELL DIRECTION
      DO COUNT1=0,NZBG-2
        CONST(COUNT1,2)=TCOND*3600.d0/SoilDens/CG/DZ(COUNT1)/DZP(COUNT1)
-       IF (isnan(CONST(COUNT1,2))) THEN
-         WRITE (DebugOutFile,*) ' CalcTearth: COUNT1=', COUNT1,' CONST(COUNT1,2)=', CONST(COUNT1,2), ' TCOND=', TCOND, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(COUNT1)=', DZ(COUNT1), ' DZP(COUNT1)=', DZP(COUNT1)
-       ENDIF
+       !IF (isnan(CONST(COUNT1,2))) THEN
+         WRITE (DebugOutFile,*) ' CalcTearth A2: COUNT1=', COUNT1,' CONST(COUNT1,2)=', CONST(COUNT1,2), ' TCOND=', TCOND, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(COUNT1)=', DZ(COUNT1), ' DZP(COUNT1)=', DZP(COUNT1)
+       !ENDIF
      END DO
 
 !*** CONSTANT IN POSITIVE CELL DIRECTION FOR DEEP GROUND CONDITION
      CONST(NZBG-1,2)=TCOND*7200.d0/SoilDens/CG/DZ(NZBG-1)/DZ(NZBG-1)
-       IF (isnan(CONST(COUNT1,2))) THEN
-         WRITE (DebugOutFile,*) ' CalcTearth: NZBG-1=', (NZBG-1),' CONST(NZBG-1,2)=', CONST(NZBG-1,2), ' TCOND=', TCOND, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(NZBG-1)=', DZ(NZBG-1)
-       ENDIF
+       !IF (isnan(CONST(COUNT1,2))) THEN
+         WRITE (DebugOutFile,*) ' CalcTearth A3: NZBG-1=', (NZBG-1),' CONST(NZBG-1,2)=', CONST(NZBG-1,2), ' TCOND=', TCOND, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(NZBG-1)=', DZ(NZBG-1)
+       !ENDIF
 !*** FOR FIXED TEMPERATURE LOWER BOUNDARY CONDITION, SET
 !*** BOUNDARY VALUE
      IF (.not. SameString(FIXBC,'FALSE')) TDEEP=TG(NZBG)
