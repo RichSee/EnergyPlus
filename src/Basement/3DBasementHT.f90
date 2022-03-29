@@ -9928,15 +9928,15 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
              IF (RSNW.EQ.0.) THEN
                B(1)=1.+CONST(0,2)
                R(1)=TG(0)+GOFT*3600.d0/SoilDens/CG/DZ(0)
-               IF (isnan(R(1))) THEN
-                 WRITE (DebugOutFile,*) ' CalcTearth: R(1)=', R(1),' TG(0)=', TG(0), ' GOFT=', GOFT, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(0)=', DZ(0)
-               ENDIF
+               !IF (isnan(R(1))) THEN
+                 WRITE (DebugOutFile,*) ' CalcTearth E1: R(1)=', R(1),' TG(0)=', TG(0), ' GOFT=', GOFT, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(0)=', DZ(0)
+               !ENDIF
              ELSE
                B(1)=1.d0+(1.d0/RSNW+TCOND/DZP(0))*3600.d0/SoilDens/CG/DZ(0)
                R(1)=TG(0)+(GOFT+TDB(IHR)/RSNW)*3600.d0/SoilDens/CG/DZ(0)
-               IF (isnan(R(1))) THEN
-                 WRITE (DebugOutFile,*) ' CalcTearth: R(1)=', R(1),' TG(0)=', TG(0), ' GOFT=', GOFT, ' RSNW=', RSNW, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(0)=', DZ(0)
-               ENDIF
+               !IF (isnan(R(1))) THEN
+                 WRITE (DebugOutFile,*) ' CalcTearth E2: R(1)=', R(1),' TG(0)=', TG(0), ' GOFT=', GOFT, ' RSNW=', RSNW, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(0)=', DZ(0)
+               !ENDIF
              END IF
              C(1)=-CONST(0,2)
 !*** SOLVE SYSTEM WITH TRIDIAGONAL MATRIX ALGORITHM
@@ -10449,17 +10449,19 @@ SUBROUTINE TRIDI1D (A,B,C,X,R,N)
 
      A(N)=A(N)/B(N)
      R(N)=R(N)/B(N)
+         WRITE (DebugOutFile,*) ' TRIDI1D A: N=', N,' X(N)=', X(N), ' R(N)=', R(N), ' A(N)=', A(N), ' B(N)=', B(N)
      DO COUNT1=2,N
        II=-COUNT1+N+2
        BN=1.d0/(B(II-1)-A(II)*C(II-1))
        A(II-1)=A(II-1)*BN
        R(II-1)=(R(II-1)-C(II-1)*R(II))*BN
+         WRITE (DebugOutFile,*) ' TRIDI1D B: II=', II,' B(II-1)=', B(II-1), ' R(II-1)=', R(II-1), ' A(II-1)=', A(II-1),  ' C(II-1)=', C(II-1),  ' BN=', BN
      END DO
      X(1)=R(1)
      DO COUNT1=2,N
        X(COUNT1)=R(COUNT1)-A(COUNT1)*X(COUNT1-1)
        IF (isnan(X(COUNT1))) THEN
-         WRITE (DebugOutFile,*) ' TRIDI1D: COUNT1=', COUNT1,' X(Count1)=', X(COUNT1), ' R(COUNT1)=', R(COUNT1), ' A(COUNT1)=', A(COUNT1)
+         WRITE (DebugOutFile,*) ' TRIDI1D C: COUNT1=', COUNT1,' X(Count1)=', X(COUNT1), ' R(COUNT1)=', R(COUNT1), ' A(COUNT1)=', A(COUNT1)
        ENDIF
      END DO
 END SUBROUTINE TRIDI1D
