@@ -11895,6 +11895,11 @@ IMPLICIT NONE
 
      REAL(r64) SqrtArg
 
+! Initialize DZACT
+     DO COUNT1=-35,100
+       DZACT(COUNT1) = 0.0
+     END DO
+
 !*** Setting values of derived type variables
      TSTEP=SimParams%TSTEP*3600.
      F=SimParams%F
