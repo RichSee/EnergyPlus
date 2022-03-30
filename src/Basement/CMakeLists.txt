@@ -37,6 +37,7 @@ if(NOT APPLE AND NOT UNIX) # Windows
                 /fpscomp:nolibs
                 /fpe:0
                 /fp:fast=2
+                /finit-local-zero
                 /traceback
                 /check:uninit
                 /libs:static
