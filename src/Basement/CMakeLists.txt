@@ -21,7 +21,7 @@ set(SRC
 
 add_library(BasementOptions INTERFACE)
 if(NOT CMAKE_Fortran_COMPILER MATCHES "ifort")
-  target_compile_options(BasementOptions INTERFACE -ffloat-store)
+  target_compile_options(BasementOptions INTERFACE -ffloat-store -finit-local-zero)
 endif()
 
 if(NOT APPLE AND NOT UNIX) # Windows
@@ -37,7 +37,6 @@ if(NOT APPLE AND NOT UNIX) # Windows
                 /fpscomp:nolibs
                 /fpe:0
                 /fp:fast=2
-                /finit-local-zero
                 /traceback
                 /check:uninit
                 /libs:static
