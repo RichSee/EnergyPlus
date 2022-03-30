@@ -2393,7 +2393,6 @@ IMPLICIT NONE
         DO COUNT1=-NZAG,NZBGM1
           ZC(COUNT1)=(ZFACE(COUNT1)+ZFACE(COUNT1+1))/2.d0
           DZ(COUNT1)=ZFACE(COUNT1+1)-ZFACE(COUNT1)
-         WRITE (DebugOutFile,*) ' BasementSimulator A: COUNT1=', COUNT1, ' DZ(COUNT1)=', DZ(COUNT1), ' ZFACE(COUNT1)=', ZFACE(COUNT1), ' ZFACE(COUNT1+1)=', ZFACE(COUNT1+1)
         END DO
         ZC(0)=0.
         ZC(KBASE)=ZFACE(KBASE)
@@ -2404,7 +2403,6 @@ IMPLICIT NONE
         DO COUNT1=-NZAG,NZBGM1
           ZC(COUNT1)=(ZFACE(COUNT1)+ZFACE(COUNT1+1))/2.d0
           DZ(COUNT1)=ZFACE(COUNT1+1)-ZFACE(COUNT1)
-          WRITE (DebugOutFile,*) ' BasementSimulator A: COUNT1=', COUNT1, ' DZ(COUNT1)=', DZ(COUNT1), ' ZFACE(COUNT1)=', ZFACE(COUNT1), ' ZFACE(COUNT1+1)=', ZFACE(COUNT1+1)
         END DO
         ZC(0)=0.
         ZC(KBASE)=ZFACE(KBASE)
@@ -9768,35 +9766,22 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
 !*** CONSTANT IN NEGATIVE CELL DIRECTION
 !!     REWIND (Weather)
 
-     WRITE (DebugOutFile,*) ' CalcTearth A: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
-     WRITE (DebugOutFile,*) ' CalcTearth A: X(NZBG)=', X(NZBG), ' R(NZBG)=', R(NZBG), ' A(NZBG)=', A(NZBG), ' TG(NZBG)=', TG(NZBG), ' DH=', DH
      DO COUNT1=1,NZBG-1
        CONST(COUNT1,1)=TCOND*3600.d0/SoilDens/CG/DZ(COUNT1)/DZP(COUNT1-1)
-       !IF (isnan(CONST(COUNT1,1))) THEN
-         WRITE (DebugOutFile,*) ' CalcTearth A1: COUNT1=', COUNT1,' CONST(COUNT1,1)=', CONST(COUNT1,1), ' TCOND=', TCOND, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(COUNT1)=', DZ(COUNT1), ' DZP(COUNT1-1)=', DZP(COUNT1-1)
-       !ENDIF
      END DO
 !*** CONSTANTS IN POSITIVE CELL DIRECTION
      DO COUNT1=0,NZBG-2
        CONST(COUNT1,2)=TCOND*3600.d0/SoilDens/CG/DZ(COUNT1)/DZP(COUNT1)
-       !IF (isnan(CONST(COUNT1,2))) THEN
-         WRITE (DebugOutFile,*) ' CalcTearth A2: COUNT1=', COUNT1,' CONST(COUNT1,2)=', CONST(COUNT1,2), ' TCOND=', TCOND, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(COUNT1)=', DZ(COUNT1), ' DZP(COUNT1)=', DZP(COUNT1)
-       !ENDIF
      END DO
 
 !*** CONSTANT IN POSITIVE CELL DIRECTION FOR DEEP GROUND CONDITION
      CONST(NZBG-1,2)=TCOND*7200.d0/SoilDens/CG/DZ(NZBG-1)/DZ(NZBG-1)
-       !IF (isnan(CONST(COUNT1,2))) THEN
-         WRITE (DebugOutFile,*) ' CalcTearth A3: NZBG-1=', (NZBG-1),' CONST(NZBG-1,2)=', CONST(NZBG-1,2), ' TCOND=', TCOND, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(NZBG-1)=', DZ(NZBG-1)
-       !ENDIF
 !*** FOR FIXED TEMPERATURE LOWER BOUNDARY CONDITION, SET
 !*** BOUNDARY VALUE
      IF (.not. SameString(FIXBC,'FALSE')) TDEEP=TG(NZBG)
 
 !*** ESTIMATE CONDUCTION TO GROUND FOR FIRST STEP OF CALCULATION
      GOLD=TCOND*(TG(0)-TG(1))/DZP(0)
-     WRITE (DebugOutFile,*) ' CalcTearth B: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
-     WRITE (DebugOutFile,*) ' CalcTearth B: X(NZBG)=', X(NZBG), ' R(NZBG)=', R(NZBG), ' A(NZBG)=', A(NZBG), ' TG(NZBG)=', TG(NZBG), ' DH=', DH
 
 !*** POSITION BLAST ASCII WEATHER FILE
 !     CALL SkipHeader
@@ -9856,8 +9841,6 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
 
 !*** CALCULATE CONVECTIVE HEAT & MASS TRANSFER COEFFICIENTS DH AND DW
              CALL CalcHeatMassTransCoeffs (VHT,WND(IHR),AVGWND,TDB(IHR),TG(0),DH,DW)
-     WRITE (DebugOutFile,*) ' CalcTearth C: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
-     WRITE (DebugOutFile,*) ' CalcTearth C: X(NZBG)=', X(NZBG), ' R(NZBG)=', R(NZBG), ' A(NZBG)=', A(NZBG), ' TG(NZBG)=', TG(NZBG), ' DH=', DH
 
 !*** CALCULATE THE DIRECT SOLAR RADIATION INCIDENT ON A HORIZONTAL
 !*** AND ON A VERTICAL SURFACE, RDIRH AND RDIRV, RESPECTIVELY.
@@ -9886,8 +9869,6 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
                C(II)=-CONST(COUNT1,2)
                R(II)=TG(COUNT1)
              END DO
-     WRITE (DebugOutFile,*) ' CalcTearth D: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
-     WRITE (DebugOutFile,*) ' CalcTearth D: X(NZBG)=', X(NZBG), ' R(NZBG)=', R(NZBG), ' A(NZBG)=', A(NZBG), ' TG(NZBG)=', TG(NZBG), ' DH=', DH
 !*** LOWER BOUNDARY (2 CASES:  FIXED TEMPERATURE (FIXBC=T) AND
 !*** ZERO HEAT FLUX (FIXBC=F))
              IF (.not. SameString(FIXBC,'FALSE')) THEN
@@ -9899,8 +9880,6 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
                B(NZBG)=1.+CONST(NZBG-1,1)
                R(NZBG)=TG(NZBG-1)
              END IF
-     WRITE (DebugOutFile,*) ' CalcTearth E: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
-     WRITE (DebugOutFile,*) ' CalcTearth E: X(NZBG)=', X(NZBG), ' R(NZBG)=', R(NZBG), ' A(NZBG)=', A(NZBG), ' TG(NZBG)=', TG(NZBG), ' DH=', DH
 !*** UPPER BOUNDARY (GROUND SURFACE)
 !*** CALCULATE G(T)
 !*** SKY RADIATION (RSKY) FROM ANGSTROM/GEIGER EQUATION
@@ -9935,25 +9914,16 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
              IF (RSNW.EQ.0.) THEN
                B(1)=1.+CONST(0,2)
                R(1)=TG(0)+GOFT*3600.d0/SoilDens/CG/DZ(0)
-               !IF (isnan(R(1))) THEN
-                 WRITE (DebugOutFile,*) ' CalcTearth E1: R(1)=', R(1),' TG(0)=', TG(0), ' GOFT=', GOFT, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(0)=', DZ(0)
-               !ENDIF
              ELSE
                B(1)=1.d0+(1.d0/RSNW+TCOND/DZP(0))*3600.d0/SoilDens/CG/DZ(0)
                R(1)=TG(0)+(GOFT+TDB(IHR)/RSNW)*3600.d0/SoilDens/CG/DZ(0)
-               !IF (isnan(R(1))) THEN
-                 WRITE (DebugOutFile,*) ' CalcTearth E2: R(1)=', R(1),' TG(0)=', TG(0), ' GOFT=', GOFT, ' RSNW=', RSNW, ' SoilDens=', SoilDens, ' CG=', CG, ' DZ(0)=', DZ(0)
-               !ENDIF
              END IF
              C(1)=-CONST(0,2)
 !*** SOLVE SYSTEM WITH TRIDIAGONAL MATRIX ALGORITHM
              CALL TRIDI1D (A,B,C,X,R,NZBG)
-     WRITE (DebugOutFile,*) ' CalcTearth F: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
-     WRITE (DebugOutFile,*) ' CalcTearth F: X(NZBG)=', X(NZBG), ' R(NZBG)=', R(NZBG), ' A(NZBG)=', A(NZBG), ' TG(NZBG)=', TG(NZBG), ' DH=', DH
              DO COUNT1=0,NZBG-1
                TG(COUNT1)=X(COUNT1+1)
              END DO
-     WRITE (DebugOutFile,*) ' CalcTearth G: X(2)=', X(2), ' R(2)=', R(2), ' A(2)=', A(2), ' TG(2)=', TG(2), ' DH=', DH
              IF (SameString(FIXBC,'FALSE')) TG(NZBG)=TG(NZBG-1)
 !*** IF TEMPERATURE FIELD HAS CONVERGED, RESULTS ARE WRITTEN TO
 !*** THE BOUNDARY CONDITION FILE (RSKY, CONVECTIVE HEAT AND MASS
@@ -9962,7 +9932,6 @@ SUBROUTINE CalcTearth(IEXT,JEXT,DZ,DZP,TG,CVG)
              IF (CVG) THEN
                WRITE (GroundTemp,*) RSKY, RHOA*CPA*DH, RHOA*CPA*DW, DODPG
                WRITE (GroundTemp,*) (TG(COUNT1), COUNT1=0,NZBG)
-               WRITE (DebugOutFile,*) 'CalcTearth: RHOA=',RHOA,' CPA=', CPA,' DH=', DH,' DW=', DW
              END IF
 !*** COMPUTE THE SUM OF HOURLY GROUND TEMPERATURES FOR ONE DAY
              DO COUNT1=0,NZBG
@@ -10177,10 +10146,8 @@ SUBROUTINE CalcHeatMassTransCoeffs (VEGHTCM,WND,AVGWND,TDB,TG,DH,DW)
 !*** SPEED IS ZERO, USE DAILY AVERAGE WIND)
      IF (WND.EQ.0.) THEN
        WND2=AVGWND*(LOG(200.d0-ZEROD)/ZOM)/(LOG(1000.d0-ZEROD)/ZOM)
-       WRITE (DebugOutFile,*) ' AVGWND=', AVGWND,' ZOM=', ZOM
      ELSE
        WND2=WND*(LOG(200.d0-ZEROD)/ZOM)/(LOG(1000.d0-ZEROD)/ZOM)
-       WRITE (DebugOutFile,*) ' WND=', WND,' ZOM=', ZOM
      END IF
 
 !*** COMPUTE THE NEUTRAL STABILITY MOMENTUM TRANSFER COEFFICIENT
@@ -10206,12 +10173,9 @@ SUBROUTINE CalcHeatMassTransCoeffs (VEGHTCM,WND,AVGWND,TDB,TG,DH,DW)
      IF (TDB.LE.TG) THEN
        DH=DM
        DW=DM
-       WRITE (DebugOutFile,*) 'CalcHeatMassTransCoeffs: DH=', DH,' DW=', DW, 'DM=', DM
      ELSE
        DH=DM*(1.d0-14.d0*(TG-TDB)/WND2/WND2)**(monethird)
        DW=DH
-       WRITE (DebugOutFile,*) 'CalcHeatMassTransCoeffs: DH=', DH,' DW=', DW, 'DM=', DM
-       WRITE (DebugOutFile,*) 'CalcHeatMassTransCoeffs: TG=', TG,' TDB=', TDB, 'WND2=', WND2, 'monethird', monethird
      END IF
      RETURN
 END SUBROUTINE CalcHeatMassTransCoeffs
@@ -10457,20 +10421,15 @@ SUBROUTINE TRIDI1D (A,B,C,X,R,N)
 
      A(N)=A(N)/B(N)
      R(N)=R(N)/B(N)
-         WRITE (DebugOutFile,*) ' TRIDI1D A: N=', N,' X(N)=', X(N), ' R(N)=', R(N), ' A(N)=', A(N), ' B(N)=', B(N)
      DO COUNT1=2,N
        II=-COUNT1+N+2
        BN=1.d0/(B(II-1)-A(II)*C(II-1))
        A(II-1)=A(II-1)*BN
        R(II-1)=(R(II-1)-C(II-1)*R(II))*BN
-         WRITE (DebugOutFile,*) ' TRIDI1D B: II=', II,' B(II-1)=', B(II-1), ' R(II-1)=', R(II-1), ' A(II-1)=', A(II-1),  ' C(II-1)=', C(II-1),  ' BN=', BN
      END DO
      X(1)=R(1)
      DO COUNT1=2,N
        X(COUNT1)=R(COUNT1)-A(COUNT1)*X(COUNT1-1)
-       IF (isnan(X(COUNT1))) THEN
-         WRITE (DebugOutFile,*) ' TRIDI1D C: COUNT1=', COUNT1,' X(Count1)=', X(COUNT1), ' R(COUNT1)=', R(COUNT1), ' A(COUNT1)=', A(COUNT1)
-       ENDIF
      END DO
 END SUBROUTINE TRIDI1D
 
@@ -11831,26 +11790,20 @@ IMPLICIT NONE
        IF (COUNT1.EQ.NZ1) ZFACEINIT(COUNT1)=BaseDepth
        IF (COUNT1.EQ.NZ1) KBASE=COUNT1 !+NZAG
      END DO
-     WRITE (DebugOutFile,*) ' Autogridding A: NZ1=', NZ1, ' NZ2=', NZ2, ' NZ3=', NZ3, ' NZ4=', NZ4, ' NZ5=', NZ5, ' NZBG=', NZBG
      DO COUNT1=NZ1+1,NZ1+NZ2
        ZFACEINIT(COUNT1)=ZFACEINIT(COUNT1-1)+Slabdepth
-       WRITE (DebugOutFile,*) ' Autogridding B: COUNT1=', COUNT1, ' ZFACEINIT(COUNT1)=', ZFACEINIT(COUNT1)
      END DO
      DO COUNT1=NZ1+NZ2+1,NZ1+NZ2+NZ3
        ZFACEINIT(COUNT1)=ZFACEINIT(COUNT1-1)+DGRAVZN
-       WRITE (DebugOutFile,*) ' Autogridding C: COUNT1=', COUNT1, ' ZFACEINIT(COUNT1)=', ZFACEINIT(COUNT1)
      END DO
      DO COUNT1=NZ1+NZ2+NZ3+1,NZ1+NZ2+NZ3+NZ4
        ZFACEINIT(COUNT1)=ZFACEINIT(COUNT1-1)+0.25d0
-       WRITE (DebugOutFile,*) ' Autogridding D: COUNT1=', COUNT1, ' ZFACEINIT(COUNT1)=', ZFACEINIT(COUNT1)
      END DO
      DO COUNT1=NZ1+NZ2+NZ3+NZ4+1,NZ1+NZ2+NZ3+NZ4+NZ5
        ZFACEINIT(COUNT1)=ZFACEINIT(COUNT1-1)+0.5d0
-       WRITE (DebugOutFile,*) ' Autogridding E: COUNT1=', COUNT1, ' ZFACEINIT(COUNT1)=', ZFACEINIT(COUNT1)
      END DO
      DO COUNT1=NZ1+NZ2+NZ3+NZ4+NZ5+1,NZBG
        ZFACEINIT(COUNT1)=ZFACEINIT(COUNT1-1)+2.0d0
-       WRITE (DebugOutFile,*) ' Autogridding F: COUNT1=', COUNT1, ' ZFACEINIT(COUNT1)=', ZFACEINIT(COUNT1)
      END DO
 END SUBROUTINE Autogridding
 
@@ -11932,11 +11885,9 @@ IMPLICIT NONE
            ELSE
              DZACT(COUNT3)=DZINIT(COUNT3)
            END IF
-           WRITE (DebugOutFile,*) ' CalcDZmin A: COUNT3=', COUNT3, ' DZINIT(COUNT3)=', DZINIT(COUNT3), ' DZACT(COUNT3)=', DZACT(COUNT3)
          END DO
        END DO
      END DO
-     WRITE (DebugOutFile,*) ' CalcDZmin A2: NZBG=', NZBG, ' DZINIT(NZBG)=', DZINIT(NZBG), ' DZACT(NZBG)=', DZACT(NZBG)
      ZFACE(-NZAG)=ZFACEINIT(-NZAG)
      ZFACE(-NZAG+1)=ZFACEINIT(-NZAG+1)
      ZFACE(-NZAG+2)=ZFACEINIT(-NZAG+2)
@@ -11949,7 +11900,6 @@ IMPLICIT NONE
        ELSE
          ZFACE(COUNT3)=ZFACEINIT(COUNT3)
        END IF
-       WRITE (DebugOutFile,*) ' CalcDZmin B: COUNT3=', COUNT3, ' ZFACE(COUNT3)=', ZFACE(COUNT3)
      END DO
      RETURN
 END SUBROUTINE  CalcDZmin
@@ -13322,7 +13272,6 @@ IMPLICIT NONE
        TG(COUNT1)=Tm-As*EXP(-0.4464*ZFACEUsed(COUNT1))*         &
          & COSD(.5236*(-1.-.8525*ZFACEUsed(COUNT1)))
        IF (COUNT1.EQ.20) TG(COUNT1)=Tm
-       WRITE (DebugOutFile,*) ' InitializeTG: COUNT1=', COUNT1,' TG(Count1)=', TG(COUNT1), ' ZFACEUsed(COUNT1)=', ZFACEUsed(COUNT1), ' Tm=', Tm, ' As=', As
      END DO
 !     CLOSE(TempInit)
      RETURN
