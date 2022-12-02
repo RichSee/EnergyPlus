@@ -31,6 +31,58 @@ In this Task Order we propose to implement support for calculation and reporting
 
 ## IEER = Integrated Energy Efficiency Rating (2022)
 The Integrated Energy Efficiency Ratio (IEER) will be calculated and reported as defined in the 2022 version of the AHRI 340/360 standard -- "Performance Rating of Commercial and Industrial Unitary Air Conditioning and Heat Pump Equipment." When compared to the previous (limited) implementation of the 2008 version of this standard, the Temperature time bins have changed and various test conditions for calculation of this metric have have changed & been expanded.
+<br/><br/>
+**General IEER Equations** <br/>
+For units covered by this standard, the IEER shall be calculated using test derived 
+data and the below Equation<br/><br/>
+![image](https://user-images.githubusercontent.com/78803858/205349295-b53d2fe9-c227-49a6-b926-fe00737e3b8c.png)<br/>
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Where:<br/>
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;**A** = EER, (Btu/h)/W, at 100% Capacity at AHRI Standard Rating Conditions (see Table 6)<br/>
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;**B** = EER, (Btu/h)/W, at 75% Capacity and reduced condenser temperature (see Table 9)<br/>
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;**C** = EER, (Btu/h)/W, at 50% Capacity and reduced condenser temperature (see Table 9)<br/>
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;**D** = EER, (Btu/h)/W, at 25% Capacity and reduced condenser temperature (see Table 9)<br/>
+<br/>
+The IEER rating requires that the unit efficiency be determined at 100, 75, 50, and 25 Percent Load at the 
+conditions specified in Table 9 and at the part-load rated indoor airflow, if different than the Full Load Rated Indoor Airflow. <br/>
+![image](https://user-images.githubusercontent.com/78803858/205340767-bb273a2b-c63a-4418-a0aa-585a8d3dad25.png)<br/>
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Where:<br/>
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; ![image](https://user-images.githubusercontent.com/78803858/205343185-e847900f-03fd-465f-a64d-4d15f0b1371e.png) = Degradation coefficient, (Btu/h)/(Btu/h)
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; ![image](https://user-images.githubusercontent.com/78803858/205343266-aa280bcd-d3a3-40fc-ae8b-4d348d1de68b.png) = Compressor power at the lowest machine unloading point operating at the applicable
+part-load Rating Condition, W
+
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; ![image](https://user-images.githubusercontent.com/78803858/205343337-a93882e0-3689-4c1d-aa27-9e2ac06e041a.png) = Condenser Section power, at the applicable part-load Rating Condition, W 
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; ![image](https://user-images.githubusercontent.com/78803858/205343408-24ab70c9-c15a-4a20-b1d6-1871f583c62a.png) = Control circuit power and any auxiliary loads, W
+
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; ![image](https://user-images.githubusercontent.com/78803858/205343463-eb84d186-c610-46d7-a28d-12b1173f5875.png) = Indoor Fan power, W
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; ![image](https://user-images.githubusercontent.com/78803858/205343556-cb53ba19-7b0a-4214-bb90-f0137e959ed1.png) = Cooling Capacity at the lowest machine unloading point operating at the applicable
+part-load Rating Condition, Btu/h<br/>
+
+The degradation coefficient, to account for cycling of the compressor for capacity less than the 
+minimum step of capacity, shall be calculated using the Equation below:<br/>
+![image](https://user-images.githubusercontent.com/78803858/205344387-f104632c-23dc-4b88-8d35-37f6fbadea64.png)<br/>
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Where:<br/>
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;LF = Fractional “on” time for last stage at the tested load point, noted in the Equation below<br/><br/>
+![image](https://user-images.githubusercontent.com/78803858/205344573-eec5558d-0b6e-4449-b243-222f0eebf7bb.png)<br/>
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Where:<br/>
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;![image](https://user-images.githubusercontent.com/78803858/205347128-2051af9d-6b90-4cd9-9097-70b2e29bcc68.png)= Percent Load
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;![image](https://user-images.githubusercontent.com/78803858/205347196-b69ff8d4-100b-4500-adcd-e8018ce23125.png)= Full load Net Capacity, Btu/h
+
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;![image](https://user-images.githubusercontent.com/78803858/205347261-64d76cda-98b8-483d-b5ff-6fe3910dfe11.png)= Part load Net Capacity, Btu/h
+
+## Test Conditions: <br/>
+![image](https://user-images.githubusercontent.com/78803858/205347858-a130fb11-c23b-4a34-bdc4-2a32e7d8d263.png)<br/><br/>
+![image](https://user-images.githubusercontent.com/78803858/205354762-fdce0568-e15d-47f0-8966-cbeeb88df9c4.png)<br/>
+
+**Example Test Points Used for EER Rating Points**<br/>
+![image](https://user-images.githubusercontent.com/78803858/205357978-5b1096e7-3b38-44b4-a870-8881c911296e.png)<br/>
+
+
 
 ## SEER2 = Seasonal Energy Efficiency Rating (2023)
 Currently, there is at least one DX cooling coil for which SEER2 is not calculated & reported. We proposal to extend SEER2 calculation and reporting to include Coil:Cooling:DX:VariableSpeed.
