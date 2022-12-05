@@ -83,9 +83,8 @@ minimum step of capacity, shall be calculated using the Equation below:<br/>
 ![image](https://user-images.githubusercontent.com/78803858/205357978-5b1096e7-3b38-44b4-a870-8881c911296e.png)<br/>
 
 
-
 ## SEER2 = Seasonal Energy Efficiency Rating (2023)
-Currently, there is at least one DX cooling coil for which SEER2 is not calculated & reported. We proposal to extend SEER2 calculation and reporting to include Coil:Cooling:DX:VariableSpeed.
+Currently, there is at least one DX cooling coil for which SEER2 is not calculated & reported. We proposal to extend SEER2 calculation and reporting to include Coil:Cooling:DX:VariableSpeed. Calculation of the SEER2 value for these Variable Speed coils will be according to the following - extracted from the AHRI 340/360-2022 standard:<br/>
  |Variable Speed Systems|
 |--|
 |Graphical representation of SEER2:<br>![grafik](https://user-images.githubusercontent.com/49325382/173118907-586d86c5-5b44-45a2-99fd-667391a0c7ac.png)|
@@ -114,7 +113,7 @@ Currently, there is at least one DX cooling coil for which SEER2 is not calculat
 ||![grafik](https://user-images.githubusercontent.com/49325382/173118193-28b2fc85-c7a9-437b-8998-32d7f8a10ae2.png)||
 
 ## HSPF2 = Heating Seasonal Performance Factor (2023)
-Currently, there is at least one DX cooling coils for which HSPF2 is not calculated. We proposal to extend HSPF2 calculation and reporting to include Coil:Heating:DX:VariableSpeed.
+Currently, there is at least one DX cooling coils for which HSPF2 is not calculated. We proposal to extend HSPF2 calculation and reporting to include Coil:Heating:DX:VariableSpeed. Calculation of the HSPF2 value for these Variable Speed coils will be according to the following - extracted from the AHRI 340/360-2022 standard:<br/>
 |Variable Speed System|
 |--|
 |Graphical representation of HSPFs:<br>![grafik](https://user-images.githubusercontent.com/49325382/173147965-8f0fc7e8-5808-490c-8e7d-f36bc7e8abad.png)|
@@ -128,11 +127,6 @@ Currently, there is at least one DX cooling coils for which HSPF2 is not calcula
 ||![grafik](https://user-images.githubusercontent.com/49325382/173150460-8e50e95d-ba7a-45c6-98ab-4257ac2382f7.png)||
 |Case III<br>![grafik](https://user-images.githubusercontent.com/49325382/173149950-452a7920-0ccd-4ea8-b316-90e563a49037.png)|Building Load is greater than the capacity of the unit at the Full Compressor Speed||
 ||![grafik](https://user-images.githubusercontent.com/49325382/173150028-3732a2c7-bff3-4616-abb9-e1e3d735cea5.png)|
-
-There are also other variations, but I think they are not needed. E.g., Heat pumps having a Heat Comfort Controller, Heat Pump Having a Two-capacity Compressor or Heat Pump Having a Triple-Capacity Compressor 
-
-These temperature bin values changed in the newer version, thus we need to define two arrays one for the older and one for the newer version. 
-
 
 ## Approach
 For each metric, we will first identify a set of EnergyPlus components to which the metric applies. We will then locate sample files that contain these object types -- to be used in testing. Coils we currently belive will be included are shown in the outline below.
