@@ -101,29 +101,26 @@ Once the metrics are calculated we can integrate them into the corresponding rep
 
 This will all be done by extending the implementation in StandardRatings.hh & StandardRatings.cc.  Our initial estimate for the scope of this work includes the following:
 -   For IEER
-    -   SingleSpeedDXCoolingCoilStandardRatings -- used for the
-        following E+ coils:
+    -   SingleSpeedDXCoolingCoilStandardRatings -- used for the following E+ coils:
         -   Coil:Cooling:DX:SingleSpeed
+        -   Coil:Cooling:DX:CurveFit:Speed (for single-speed operating mode)
 
-    -   MultiSpeedDXCoolingCoilStandardRatings -- used for the following
-        E+ coils:
+    -   MultiSpeedDXCoolingCoilStandardRatings -- used for the following E+ coils:
         -   Coil:Cooling:DX:TwoSpeed
         -   Coil:Cooling:DX:MultiSpeed
         -   Coil:Cooling:DX:VariableSpeed *(formula/data limited to 4 > speeds)*
-        -   Coil:Cooling:DX:CurveFit:Speed
+        -   Coil:Cooling:DX:CurveFit:Speed (for multi-speed operating mode)
 
     -   SingleSpeedDXHeatingCoilStandardRatings -- used for the
         following E+ coils:
         -   Coil: Heating:DX:SingleSpeed
 
-    -   MultiSpeedDXHeatingCoilStandardRatings -- used for the following
-        E+ coils:
+    -   MultiSpeedDXHeatingCoilStandardRatings -- used for the following E+ coils:
         -   Coil: Heating:DX:TwoSpeed
         -   Coil: Heating:DX:MultiSpeed
         -   Coil: Heating:DX:VariableSpeed *(formula/data limited to 4 > speeds)*
 
-    -   ReportDXCoilRating used to report metrics for all the coils
-        listed above.
+    -   ReportDXCoilRating used to report metrics for all the coils listed above.
     -   CheckCurveLimitsForStandardRatings
 
 -   For SEER2
