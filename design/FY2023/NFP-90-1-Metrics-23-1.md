@@ -3,7 +3,7 @@
 
 **Revisions**
 -   New Feature Proposal -- 25-November-2022
--   New Feature Design -- (original) 06-December-22 (updated) 08-December-2022, 14-December-2022, 24-Jan-2023
+-   New Feature Design & Updates -- (original) 06-December-22, 08-December-22, 14-December-22, 24-Jan-23, 7-Feb-23
 
 ## Justification for New Feature
 Many new metrics appear in the ASHRAE 90.1-2019 \[1\] standard.
@@ -27,7 +27,7 @@ ASHRAE 90.1-2019:
 |9	|FEI  <br/>[(AMCA 208-2018)](https://www.techstreet.com/amca/searches/35955048) | ASHRAE 90.1-2019 |	fan energy index	| Fan Energy |	[[10]](https://www.techstreet.com/amca/searches/35955048) |
 
 In a previous Task Order, we implemented support for calculation and reporting of SEER2 and HSPF2.  This was done for SingleSpeed, TwoSpeed, MultiSpeed Cooling and Heating coils.  It was also done for CurveFit: Speed Cooling coils.
-In this Task Order we propose to implement support for calculation and reporting of the 2022 version of the AHRI IEER metric.  If budget allows, we will also extend the range of coils reporting SEER2 and HSPF2 to include VariableSpeed Cool and heating Coils.
+In this Task Order we propose to implement support for calculation and reporting of the 2022 version of the AHRI EER and IEER metrics.  If budget allows, we will also extend the range of coils reporting SEER2 and HSPF2 to include VariableSpeed Cool and heating Coils.
 
 ## IEER = Integrated Energy Efficiency Rating (2022)
 The Integrated Energy Efficiency Ratio (IEER) will be calculated and reported as defined in the 2022 version of the AHRI 340/360 standard -- "Performance Rating of Commercial and Industrial Unitary Air Conditioning and Heat Pump Equipment." This metric will be calculated and reported for Air-cooled Unitary Air-conditioners and Unitary Heat Pumps with capacities greater than 65,000 Btu/h.  When compared to the previous (limited) implementation of the 2008 version of this standard, the Temperature time bins have changed and various test conditions for calculation of this metric have have changed & been expanded.
