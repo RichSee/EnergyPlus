@@ -26,11 +26,19 @@ ASHRAE 90.1-2019:
 |8	|UEF <br/> [(CFR-430-2016 Appendix E)](https://www.govinfo.gov/app/details/CFR-2016-title10-vol3/CFR-2016-title10-vol3-part430-subpartB-appE) | ASHRAE 90.1-2019|	Uniform Energy Factor|	Water Heaters	|[[9]](https://www.govinfo.gov/app/details/CFR-2016-title10-vol3/CFR-2016-title10-vol3-part430-subpartB-appE)|
 |9	|FEI  <br/>[(AMCA 208-2018)](https://www.techstreet.com/amca/searches/35955048) | ASHRAE 90.1-2019 |	fan energy index	| Fan Energy |	[[10]](https://www.techstreet.com/amca/searches/35955048) |
 
-In a previous Task Order, we implemented support for calculation and reporting of SEER2 and HSPF2.  This was done for SingleSpeed, TwoSpeed, MultiSpeed Cooling and Heating coils.  It was also done for CurveFit: Speed Cooling coils.
-In this Task Order we propose to implement support for calculation and reporting of the 2022 version of the AHRI EER and IEER metrics.  If budget allows, we will also extend the range of coils reporting SEER2 and HSPF2 to include VariableSpeed Cool and heating Coils.
+In a previous Task Order, we implemented support for calculation and reporting of SEER2.  This was done for SingleSpeed, TwoSpeed, MultiSpeed, and CurveFit:Speed  DX Cooling coils.  We also implemented support for calculation and reporting of HSPF2 for the SingleSpeed and MultiSpeed DX Heating coils. All of this was implemented based on the 2023 version of the ANSI/AHRI 210-240 standard.
+In this Task Order we propose to implement support for calculating and reporting EER and IEER metrics for (7) cooling coils, according to the 2022 version of the AHRI 340-360 standard.
 
 ## IEER = Integrated Energy Efficiency Rating (2022)
-The Integrated Energy Efficiency Ratio (IEER) will be calculated and reported as defined in the 2022 version of the AHRI 340/360 standard -- "Performance Rating of Commercial and Industrial Unitary Air Conditioning and Heat Pump Equipment." This metric will be calculated and reported for Air-cooled Unitary Air-conditioners and Unitary Heat Pumps with capacities greater than 65,000 Btu/h.  When compared to the previous (limited) implementation of the 2008 version of this standard, the Temperature time bins have changed and various test conditions for calculation of this metric have have changed & been expanded.
+The Integrated Energy Efficiency Ratio (IEER) will be calculated and reported as defined in the 2022 version of the AHRI 340/360 standard -- "Performance Rating of Commercial and Industrial Unitary Air Conditioning and Heat Pump Equipment." 
+This metric will be calculated and reported for Air-cooled Unitary Air-conditioners and Unitary Heat Pumps with capacities greater than 65,000 Btu/h (19,050) and less than 135,000 Btu/h (39,565 W). A previous attempt for reporting EER and IEER was implemented in 2010, based on the 2008 version of this standard.  That implementation was for the single speed DX cooling coil only.  In this implementation round, we intend to implement support for calculating and reporting EER and IEER, based on the 2022 version of the standard, for all the following:
+1.	Coil:Cooling:DX (+ :CurveFit:Performance, :CurveFit:OperatingMode, :CurveFit:Speed)
+2.	Coil:Cooling:DX:SingleSpeed – update
+3.	Coil:Cooling:DX:TwoSpeed
+4.	Coil:Cooling:DX:MultiSpeed
+5.	Coil:Cooling:DX:VariableSpeed
+6.	Coil:Cooling:WaterToAirHeatPump:EquationFit
+7.	Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit
 <br/><br/>
 **General IEER Equations** <br/>
 For units covered by this standard, the IEER shall be calculated using test derived 
