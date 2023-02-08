@@ -121,19 +121,21 @@ Example files will be simulated to confirm calculation and reporting of the thes
 Unit tests for the Continuous Integration pipeline will also be updated/extended to confirm the calculation of the metrics and ensure the code produces correct results and does not fail when future code changes are merged.
 
 ## Input Output Reference Documentation
-The Input Output Documentation will be expanded to include the new metrics. There will be an update in two places: first on the related section of the EnergyPlus components for which the metric is calculated and second in the reports section, specifically the Equipment Summary report. We will also add a disclaimer: \"It is not reasonable to expect AHRI ratings calculated from model inputs to match the actual ratings in the AHRI directory. This is largely because it is common practice for manufacturers to underrate their equipment for marketing reasons and/or to build in some safety margin in case DOE audits their ratings.\"
+The Input Output Documentation will be expanded to include the new metrics. There will be an update in two places: first on the related section of the EnergyPlus components for which the metric is calculated and second in the reports section, specifically the Equipment Summary report. This will be done for (7) coil types listed in the 'IEER = Integrated Energy Efficiency Rating (2022)' section above.
+We will also add a disclaimer: \"It is not reasonable to expect AHRI ratings calculated from model inputs to match the actual ratings in the AHRI directory. This is largely because it is common practice for manufacturers to underrate their equipment for marketing reasons and/or to build in some safety margin in case DOE audits their ratings.\"
 
 ## Input Description
-New fields will be added to the variable speed DX coils (both cooling and heating) to represent the static pressure on the fans (Power per flow rate).
+New fields will be added to the the following coils, to represent the static pressure on the fans (Power per flow rate).
+- Coil:Cooling:DX:VariableSpeed -- for EER/IEER (E+ 23-1) & SEER2 (E+ 23-2)
+- Coil:Heating:DX:VariableSpeed -- for HSPF & HSPF2 (E+ 23-2)
+- Coil:Cooling:WaterToAirHeatPump:EquationFit -- for EER/IEER (E+ 23-1)
+- Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit -- for EER/IEER (E+ 23-1)
 
 ## Outputs Description
-There will be an update to the reports to include the metrics as described above.
+There will be an update to the reports to include the EER/IEER metrics for the (7) coil types listed above.
 
 ## Engineering Reference
-The Engineering Reference will be updated with a high-level description
-of the calculations with links/references to Formulae (by number)
-defined in the standards. formulas used to calculate the two metrics and
-be referenced from the corresponding EnergyPlus components.
+The Engineering Reference will be updated with a high-level description of the calculations with links/references to Formulae defined in the standard - for the (7) coil types listed in the 'IEER = Integrated Energy Efficiency Rating (2022)' section above. 
 
 ## Example Files and Transition Changes
 Transition rules will be required to accommodate the new fields added to the VariableSpeed DX coils.
@@ -157,7 +159,7 @@ Comments from Technicalities call on 14-Dec-22:
     -   Will your calculations take into consideration the physical configuration of the coils -- i.e. in-building, rooftop, others?
     -   Not saying this is required, but am curious.
         -   This would require numerous new fields, which will impose a further burden on the EnergyPlus user.
-        -   Additionally, it appears that others believe this may be 
+        -   Additionally, see Mike's caution below 
         -   Therefore we will not attempt it in this cycle.
 -   Mike Witte:
     -   Caution against trying to make assumptions about the configuration of coils in EnergyPlus, 
