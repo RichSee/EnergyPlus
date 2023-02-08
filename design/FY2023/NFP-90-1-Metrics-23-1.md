@@ -100,7 +100,6 @@ The budget in this round of development, will not support implementation of SEER
 Once the metrics are calculated we can integrate them into the corresponding report code of the equipment summary table.
 
 All of this work will all be done by extending the implementation in StandardRatings.hh & StandardRatings.cc.  Our initial estimate for the scope of this work includes the following:
--   For IEER 
 -   Expand SingleSpeedDXCoolingCoilStandardRatings to report EER/IEER values for the following E+ coils:
     -   Coil:Cooling:DX:CurveFit (single-speed operating mode)
     -   Coil:Cooling:DX:SingleSpeed
@@ -152,16 +151,14 @@ Example files that include the VariableSpeed DX coils will need to be updated.
     -   HeatPumpWaterToAirEquationFit.idf 			– WaterToAirHeatPump:EquationFit	 (Condenser:WaterCooled)
     -   VSHeatPumpWaterToAirEquationFit.idf		– WaterToAirHeatPump:VariableSpeedEquationFit (Condenser:WaterCooled)
 
--   For SEER2/HSPF2: There are 11 example files that feature one or both of the variable speed DX coils.  Testing will be done with some of all of these.  We will start files which include variable speed DX coils for both heating and cooling.  For example:
-    -   PackagedTerminalAirConditionerVSAS.idf	– Variable speed cooling & heating
-    -   PackagedTerminalHeatPumpVSAS.idf		     – Variable speed cooling & heating
-
 ## E-mail and Conference Call Conclusions ##
 Comments from Technicalities call on 14-Dec-22:
 -   Neal Kruis:
     -   Will your calculations take into consideration the physical configuration of the coils -- i.e. in-building, rooftop, others?
     -   Not saying this is required, but am curious.
-        -   This won't be possible in this cycle, but could be considered as an enhancement in the future.
+        -   This would require numerous new fields, which will impose a further burden on the EnergyPlus user.
+        -   Additionally, it appears that others believe this may be 
+        -   Therefore we will not attempt it in this cycle.
 -   Mike Witte:
     -   Caution against trying to make assumptions about the configuration of coils in EnergyPlus, 
         because they are analytical models rather that exact representations of manufactured equipment.
