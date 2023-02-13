@@ -40,6 +40,7 @@ This metric will be calculated and reported for Air-cooled Unitary Air-condition
 - Coil:Cooling:WaterToAirHeatPump:EquationFit
 - Coil:Cooling:WaterToAirHeatPump:VariableSpeedEquationFit
 <br/><br/>
+
 **General IEER Equations** <br/>
 For units covered by this standard, the IEER shall be calculated using test derived 
 data and the below Equation<br/><br/>
