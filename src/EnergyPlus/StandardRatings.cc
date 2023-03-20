@@ -3487,11 +3487,6 @@ namespace StandardRatings {
         // RedCapNum : Integer counter for reduced capacity
         for (int RedCapNum = 0; RedCapNum < NumOfReducedCap; ++RedCapNum) {
             // Get the outdoor air dry bulb temperature for the reduced capacity test conditions
-            /*if (ReducedPLR[RedCapNum] > 0.444) {
-                OutdoorUnitInletAirDryBulbTempReduced = 5.0 + 30.0 * ReducedPLR[RedCapNum];
-            } else {
-                OutdoorUnitInletAirDryBulbTempReduced = OADBTempLowReducedCapacityTest;
-            }*/
             // As per Table 9. IEER Part-Load Rating Conditions | AHRI Std.340/360-2022(IP)
             if (ReducedPLR[RedCapNum] == 0.25) {
                 if (CondenserType == DataHeatBalance::RefrigCondenserType::Air) {
@@ -3503,6 +3498,7 @@ namespace StandardRatings {
                 } else if (CondenserType == DataHeatBalance::RefrigCondenserType::Evap) {
                     // Entering Air Wet-bulb/Air Dry-bulb/Makeup Water Temperature EWB/DB/MW
                     // OutdoorUnitInletAirDryBulbTempReduced = 52.8F/65.0F/77.0F
+                    OutdoorUnitInletAirDryBulbTempReduced = 18.33;
                 }
             } else if (ReducedPLR[RedCapNum] == 0.50) {
                 if (CondenserType == DataHeatBalance::RefrigCondenserType::Air) {
@@ -3511,6 +3507,7 @@ namespace StandardRatings {
                     OutdoorUnitInletAirDryBulbTempReduced = 16.66; // 62F
                 } else if (CondenserType == DataHeatBalance::RefrigCondenserType::Evap) {
                     // OutdoorUnitInletAirDryBulbTempReduced = 57.5F / 68.0F / 77.0F EWB / DB / MW
+                    OutdoorUnitInletAirDryBulbTempReduced = 20;
                 }
             } else if (ReducedPLR[RedCapNum] == 0.75) {
                 if (CondenserType == DataHeatBalance::RefrigCondenserType::Air) {
@@ -3519,6 +3516,7 @@ namespace StandardRatings {
                     OutdoorUnitInletAirDryBulbTempReduced = 23.05; // 73.5F
                 } else if (CondenserType == DataHeatBalance::RefrigCondenserType::Evap) {
                     // OutdoorUnitInletAirDryBulbTempReduced = 66.2F / 81.5F / 77.0F EWB / DB / MW
+                    OutdoorUnitInletAirDryBulbTempReduced = 27.5;
                 }
             } else if (ReducedPLR[RedCapNum] == 1.0) {
                 if (CondenserType == DataHeatBalance::RefrigCondenserType::Air) {
@@ -3527,6 +3525,7 @@ namespace StandardRatings {
                     OutdoorUnitInletAirDryBulbTempReduced = 29.44; // 85.0F
                 } else if (CondenserType == DataHeatBalance::RefrigCondenserType::Evap) {
                     // OutdoorUnitInletAirDryBulbTempReduced = 75.0F / 95.0F / 85.0F EWB / DB / MW
+                    OutdoorUnitInletAirDryBulbTempReduced = 35;
                 }
             }
 
@@ -3569,17 +3568,8 @@ namespace StandardRatings {
             // PCT = 50;
             PCT = 0; // Control Circuit Power  and any auxilary Power not in Energy Plus Object.
             Real64 PC_plus_PCD = EIR * (RatedTotalCapacity * TotCapTempModFac * TotCapFlowModFac);
-            CD = (-0.13 * LF) + 1.13; // DegradationCoeff = 1.130 - 0.130 * LoadFactor;
-            // ElecPowerReducedCap = CD * EIR * (RatedTotalCapacity * TotCapTempModFac * TotCapFlowModFac);
-            // EERReduced = (LoadFactor * NetCoolingCapReduced) / (LoadFactor * ElecPowerReducedCap + FanPowerPerEvapAirFlowRate *
-            // RatedAirVolFlowRate);
+            CD = (-0.13 * LF) + 1.13; // DegradationCoeff 
             EER = (LF * q) / (LF * (CD * (PC_plus_PCD)) + PIF + PCT); // TODO NEXT
-                                                                      // ??
-
-            // For Testing Reports
-            // EER = (LF * q) / (LF * ElecPowerReducedCap + FanPowerPerEvapAirFlowRate * RatedAirVolFlowRate);
-            // Correct Version
-            //
             if (PL == 100) {
                 A = EER;
             } else if (PL == 75) {
@@ -3589,23 +3579,6 @@ namespace StandardRatings {
             } else if (PL == 25) {
                 D = EER;
             }
-            /*switch (PL) {
-            case 100:
-                A = EER;
-                break;
-            case 75:
-                B = EER;
-                break;
-            case 50:
-                C = EER;
-                break;
-            case 25:
-                D = EER;
-                break;
-            default:
-                break;
-            }*/
-            // IEER += IEERWeightingFactor[RedCapNum] * EERReduced;
         }
         IEER = (0.020 * A) + (0.617 * B) + (0.238 * C) + (0.125 * D);
         EER2 = A;

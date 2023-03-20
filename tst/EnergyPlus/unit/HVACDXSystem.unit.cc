@@ -1087,7 +1087,7 @@ TEST_F(EnergyPlusFixture, NewDXCoilModel_RHControl)
     state->dataSize->CurSysNum = 1;
     state->dataSize->UnitarySysEqSizing.allocate(1);
     // run init to size system
-    thisSys->initUnitarySystems(*state, 1, FirstHVACIteration, 0, 0.0);
+    thisSys->initUnitarySystems(*state, 1, FirstHVACIteration, 0.0);
     DataHVACGlobals::CompressorOperation CompOn = DataHVACGlobals::CompressorOperation::On;
     thisSys->controlCoolingSystemToSP(*state, airLoopNum, FirstHVACIteration, HXUnitOn, CompOn);
     // system meets temperature set point
@@ -1101,7 +1101,7 @@ TEST_F(EnergyPlusFixture, NewDXCoilModel_RHControl)
 
     // test cool reheat latent control
     thisSys->m_DesiredOutletHumRat = RHControlHumRat;
-    thisSys->initUnitarySystems(*state, 1, FirstHVACIteration, 0, 0.0);
+    thisSys->initUnitarySystems(*state, 1, FirstHVACIteration, 0.0);
     thisSys->controlCoolingSystemToSP(*state, airLoopNum, FirstHVACIteration, HXUnitOn, CompOn);
 
     Real64 outTemp2 = state->dataLoopNodes->Node(ControlNode).Temp;
@@ -1122,7 +1122,7 @@ TEST_F(EnergyPlusFixture, NewDXCoilModel_RHControl)
 
     // test multimode latent control (change CoilSystem:Cooling:DX coolreheat to multimode)
     thisSys->m_DehumidControlType_Num = UnitarySystems::UnitarySys::DehumCtrlType::Multimode;
-    thisSys->initUnitarySystems(*state, 1, FirstHVACIteration, 0, 0.0);
+    thisSys->initUnitarySystems(*state, 1, FirstHVACIteration, 0.0);
     thisSys->controlCoolingSystemToSP(*state, airLoopNum, FirstHVACIteration, HXUnitOn, CompOn);
 
     Real64 outTemp3 = state->dataLoopNodes->Node(ControlNode).Temp;

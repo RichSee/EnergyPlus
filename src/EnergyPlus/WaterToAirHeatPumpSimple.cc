@@ -3022,7 +3022,7 @@ namespace WaterToAirHeatPumpSimple {
         // Capacity of Air Conditioners and Heat Pumps at Part-Load Conditions
         // with Constant Fan Operation ASHRAE Transactions 102 (1), pp. 266-274.
 
-        auto &TimeStepSys = state.dataHVACGlobal->TimeStepSys;
+        Real64 TimeStepSysSec = state.dataHVACGlobal->TimeStepSysSec;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         constexpr Real64 Tref(283.15); // Reference Temperature for performance curves,10C [K]
@@ -3047,7 +3047,6 @@ namespace WaterToAirHeatPumpSimple {
         Real64 CpAir;                      // Specific heat of air [J/kg_C]
         Real64 LoadSideFullMassFlowRate;   // Load Side Full Load Mass Flow Rate [kg/s]
         Real64 LoadSideFullOutletEnthalpy; // Load Side Full Load Outlet Air Enthalpy [J/kg]
-        Real64 ReportingConstant;
 
         bool LatDegradModelSimFlag;      // Latent degradation model simulation flag
         int NumIteration;                // Iteration Counter
@@ -3248,7 +3247,6 @@ namespace WaterToAirHeatPumpSimple {
         //  Add power to global variable so power can be summed by parent object
         state.dataHVACGlobal->DXElecCoolingPower = state.dataWaterToAirHeatPumpSimple->Winput;
 
-        ReportingConstant = TimeStepSys * DataGlobalConstants::SecInHour;
         DataHeatBalance::HeatReclaimDataBase &HeatReclaim = state.dataHeatBal->HeatReclaimSimple_WAHPCoil(HPNum);
         HeatReclaim.WaterHeatingDesuperheaterReclaimedHeatTotal = 0.0;
         if (allocated(HeatReclaim.WaterHeatingDesuperheaterReclaimedHeat)) {
@@ -3261,11 +3259,11 @@ namespace WaterToAirHeatPumpSimple {
         simpleWatertoAirHP.Power = state.dataWaterToAirHeatPumpSimple->Winput;
         simpleWatertoAirHP.QLoadTotal = simpleWatertoAirHP.QLoadTotalReport;
         simpleWatertoAirHP.QLatent = simpleWatertoAirHP.QLoadTotalReport - simpleWatertoAirHP.QSensible;
-        simpleWatertoAirHP.Energy = state.dataWaterToAirHeatPumpSimple->Winput * ReportingConstant;
-        simpleWatertoAirHP.EnergyLoadTotal = simpleWatertoAirHP.QLoadTotalReport * ReportingConstant;
-        simpleWatertoAirHP.EnergySensible = simpleWatertoAirHP.QSensible * ReportingConstant;
-        simpleWatertoAirHP.EnergyLatent = (simpleWatertoAirHP.QLoadTotalReport - simpleWatertoAirHP.QSensible) * ReportingConstant;
-        simpleWatertoAirHP.EnergySource = simpleWatertoAirHP.QSource * ReportingConstant;
+        simpleWatertoAirHP.Energy = state.dataWaterToAirHeatPumpSimple->Winput * TimeStepSysSec;
+        simpleWatertoAirHP.EnergyLoadTotal = simpleWatertoAirHP.QLoadTotalReport * TimeStepSysSec;
+        simpleWatertoAirHP.EnergySensible = simpleWatertoAirHP.QSensible * TimeStepSysSec;
+        simpleWatertoAirHP.EnergyLatent = (simpleWatertoAirHP.QLoadTotalReport - simpleWatertoAirHP.QSensible) * TimeStepSysSec;
+        simpleWatertoAirHP.EnergySource = simpleWatertoAirHP.QSource * TimeStepSysSec;
         if (RuntimeFrac == 0.0) {
             simpleWatertoAirHP.COP = 0.0;
         } else {
@@ -3343,7 +3341,7 @@ namespace WaterToAirHeatPumpSimple {
         // State Energy Simulation Program. M.S. Thesis, Department of Mechanical and Aerospace Engineering,
         // Oklahoma State University. (downloadable from www.hvac.okstate.edu)
 
-        auto &TimeStepSys = state.dataHVACGlobal->TimeStepSys;
+        Real64 TimeStepSysSec = state.dataHVACGlobal->TimeStepSysSec;
 
         // SUBROUTINE PARAMETER DEFINITIONS:
         Real64 constexpr Tref(283.15); // Reference Temperature for performance curves,10C [K]
@@ -3362,7 +3360,6 @@ namespace WaterToAirHeatPumpSimple {
         Real64 CpAir;                      // Specific heat of air [J/kg_C]
         Real64 LoadSideFullMassFlowRate;   // Load Side Full Load Mass Flow Rate [kg/s]
         Real64 LoadSideFullOutletEnthalpy; // Load Side Full Load Outlet Air Enthalpy [J/kg]
-        Real64 ReportingConstant;
 
         //  LOAD LOCAL VARIABLES FROM DATA STRUCTURE (for code readability)
 
@@ -3467,16 +3464,15 @@ namespace WaterToAirHeatPumpSimple {
         //  Add power to global variable so power can be summed by parent object
         state.dataHVACGlobal->DXElecHeatingPower = state.dataWaterToAirHeatPumpSimple->Winput;
 
-        ReportingConstant = TimeStepSys * DataGlobalConstants::SecInHour;
         // Update heat pump data structure
         simpleWatertoAirHP.Power = state.dataWaterToAirHeatPumpSimple->Winput;
         simpleWatertoAirHP.QLoadTotal = simpleWatertoAirHP.QLoadTotalReport;
         simpleWatertoAirHP.QSensible = simpleWatertoAirHP.QSensible;
-        simpleWatertoAirHP.Energy = state.dataWaterToAirHeatPumpSimple->Winput * ReportingConstant;
-        simpleWatertoAirHP.EnergyLoadTotal = simpleWatertoAirHP.QLoadTotalReport * ReportingConstant;
-        simpleWatertoAirHP.EnergySensible = simpleWatertoAirHP.QSensible * ReportingConstant;
+        simpleWatertoAirHP.Energy = state.dataWaterToAirHeatPumpSimple->Winput * TimeStepSysSec;
+        simpleWatertoAirHP.EnergyLoadTotal = simpleWatertoAirHP.QLoadTotalReport * TimeStepSysSec;
+        simpleWatertoAirHP.EnergySensible = simpleWatertoAirHP.QSensible * TimeStepSysSec;
         simpleWatertoAirHP.EnergyLatent = 0.0;
-        simpleWatertoAirHP.EnergySource = simpleWatertoAirHP.QSource * ReportingConstant;
+        simpleWatertoAirHP.EnergySource = simpleWatertoAirHP.QSource * TimeStepSysSec;
         if (RuntimeFrac == 0.0) {
             simpleWatertoAirHP.COP = 0.0;
         } else {
@@ -3534,14 +3530,13 @@ namespace WaterToAirHeatPumpSimple {
         // METHODOLOGY EMPLOYED:
         // Data is moved from the HP data structure to the HP outlet nodes.
 
-        auto &TimeStepSys = state.dataHVACGlobal->TimeStepSys;
+        Real64 TimeStepSysSec = state.dataHVACGlobal->TimeStepSysSec;
 
         // SUBROUTINE LOCAL VARIABLE DECLARATIONS:
         int AirInletNode;
         int WaterInletNode;
         int AirOutletNode;
         int WaterOutletNode;
-        Real64 ReportingConstant;
 
         auto &simpleWatertoAirHP(state.dataWaterToAirHeatPumpSimple->SimpleWatertoAirHP(HPNum));
 
@@ -3595,12 +3590,11 @@ namespace WaterToAirHeatPumpSimple {
         state.dataLoopNodes->Node(WaterOutletNode).Temp = simpleWatertoAirHP.OutletWaterTemp;
         state.dataLoopNodes->Node(WaterOutletNode).Enthalpy = simpleWatertoAirHP.OutletWaterEnthalpy;
 
-        ReportingConstant = TimeStepSys * DataGlobalConstants::SecInHour;
-        simpleWatertoAirHP.Energy = simpleWatertoAirHP.Power * ReportingConstant;
-        simpleWatertoAirHP.EnergyLoadTotal = simpleWatertoAirHP.QLoadTotal * ReportingConstant;
-        simpleWatertoAirHP.EnergySensible = simpleWatertoAirHP.QSensible * ReportingConstant;
-        simpleWatertoAirHP.EnergyLatent = simpleWatertoAirHP.QLatent * ReportingConstant;
-        simpleWatertoAirHP.EnergySource = simpleWatertoAirHP.QSource * ReportingConstant;
+        simpleWatertoAirHP.Energy = simpleWatertoAirHP.Power * TimeStepSysSec;
+        simpleWatertoAirHP.EnergyLoadTotal = simpleWatertoAirHP.QLoadTotal * TimeStepSysSec;
+        simpleWatertoAirHP.EnergySensible = simpleWatertoAirHP.QSensible * TimeStepSysSec;
+        simpleWatertoAirHP.EnergyLatent = simpleWatertoAirHP.QLatent * TimeStepSysSec;
+        simpleWatertoAirHP.EnergySource = simpleWatertoAirHP.QSource * TimeStepSysSec;
 
         if (state.dataContaminantBalance->Contaminant.CO2Simulation) {
             state.dataLoopNodes->Node(AirOutletNode).CO2 = state.dataLoopNodes->Node(AirInletNode).CO2;
