@@ -60,6 +60,7 @@
 #include <EnergyPlus/EnergyPlus.hh>
 #include <EnergyPlus/Plant/Enums.hh>
 #include <EnergyPlus/Plant/PlantLocation.hh>
+#include <EnergyPlus/StandardRatings.hh>
 
 namespace EnergyPlus {
 

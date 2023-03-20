@@ -8867,7 +8867,9 @@ void SizeDXCoil(EnergyPlusData &state, int const DXCoilNum)
 
     // Call routine that computes AHRI certified rating for single-speed DX Coils
     if ((state.dataDXCoils->DXCoil(DXCoilNum).DXCoilType_Num == CoilDX_CoolingSingleSpeed &&
-         state.dataDXCoils->DXCoil(DXCoilNum).CondenserType(1) == DataHeatBalance::RefrigCondenserType::Air) ||
+         (state.dataDXCoils->DXCoil(DXCoilNum).CondenserType(1) == DataHeatBalance::RefrigCondenserType::Air ||
+          state.dataDXCoils->DXCoil(DXCoilNum).CondenserType(1) == DataHeatBalance::RefrigCondenserType::Evap)) ||
+        // TBD: WaterCooled Coils needs more research.
         state.dataDXCoils->DXCoil(DXCoilNum).DXCoilType_Num == CoilDX_HeatingEmpirical) {
         CalcDXCoilStandardRating(state,
                                  state.dataDXCoils->DXCoil(DXCoilNum).Name,
@@ -8884,6 +8886,7 @@ void SizeDXCoil(EnergyPlusData &state, int const DXCoilNum)
                                  state.dataDXCoils->DXCoil(DXCoilNum).RatedAirVolFlowRate(1),
                                  state.dataDXCoils->DXCoil(DXCoilNum).FanPowerPerEvapAirFlowRate(1),
                                  state.dataDXCoils->DXCoil(DXCoilNum).FanPowerPerEvapAirFlowRate_2023(1),
+                                 state.dataDXCoils->DXCoil(DXCoilNum).CondenserType,
                                  state.dataDXCoils->DXCoil(DXCoilNum).RegionNum,
                                  state.dataDXCoils->DXCoil(DXCoilNum).MinOATCompressor,
                                  state.dataDXCoils->DXCoil(DXCoilNum).OATempCompressorOn,
@@ -8909,12 +8912,39 @@ void SizeDXCoil(EnergyPlusData &state, int const DXCoilNum)
                                  state.dataDXCoils->DXCoil(DXCoilNum).MSRatedAirVolFlowRate,
                                  state.dataDXCoils->DXCoil(DXCoilNum).MSFanPowerPerEvapAirFlowRate,
                                  state.dataDXCoils->DXCoil(DXCoilNum).MSFanPowerPerEvapAirFlowRate_2023,
+                                 state.dataDXCoils->DXCoil(DXCoilNum).CondenserType,
                                  state.dataDXCoils->DXCoil(DXCoilNum).RegionNum,
                                  state.dataDXCoils->DXCoil(DXCoilNum).MinOATCompressor,
                                  state.dataDXCoils->DXCoil(DXCoilNum).OATempCompressorOn,
                                  state.dataDXCoils->DXCoil(DXCoilNum).OATempCompressorOnOffBlank,
                                  state.dataDXCoils->DXCoil(DXCoilNum).DefrostControl,
                                  ObjexxFCL::Optional_bool_const());
+    }
+
+    if (state.dataDXCoils->DXCoil(DXCoilNum).DXCoilType_Num == CoilDX_CoolingTwoSpeed &&
+        (state.dataDXCoils->DXCoil(DXCoilNum).CondenserType(1) == DataHeatBalance::RefrigCondenserType::Air ||
+         state.dataDXCoils->DXCoil(DXCoilNum).CondenserType(1) == DataHeatBalance::RefrigCondenserType::Evap)) {
+        StandardRatings::CalcTwoSpeedDXCoilRating(state,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).Name,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).DXCoilType,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).DXCoilType_Num,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).RatedTotCap,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).RatedTotCap2,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).RatedCOP,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).RatedCOP2,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).CCapFFlow, // High Speed
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).CCapFTemp,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).CCapFTemp2,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).EIRFFlow, // High Speed
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).EIRFTemp,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).EIRFTemp2,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).RatedAirVolFlowRate,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).RatedAirVolFlowRate2,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).FanPowerPerEvapAirFlowRate_2023,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).FanPowerPerEvapAirFlowRate_2023_LowSpeed,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).CondenserType,
+                                                  state.dataDXCoils->DXCoil(DXCoilNum).PLFFPLR(1),
+                                                  ObjexxFCL::Optional_bool_const());
     }
 
     // create predefined report entries
@@ -15363,7 +15393,7 @@ void CalcTwoSpeedDXCoilStandardRating(EnergyPlusData &state, int const DXCoilNum
     } // loop over 3 part load test points
 
     IEER = (0.02 * EER_TestPoint_IP(1)) + (0.617 * EER_TestPoint_IP(2)) + (0.238 * EER_TestPoint_IP(3)) + (0.125 * EER_TestPoint_IP(4));
-
+    // CalcMultiSpeedDXCoilCooling() //??
     // begin output
     if (state.dataDXCoils->CalcTwoSpeedDXCoilStandardRatingOneTimeEIOHeaderWrite) {
         print(state.files.eio, Header);

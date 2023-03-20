@@ -506,7 +506,7 @@ namespace VariableSpeedCoils {
                 state.dataVariableSpeedCoils->VarSpeedCoil(DXCoilNum).MSRatedTotCap(I) = NumArray(9 + (I - 1) * 8);
                 state.dataVariableSpeedCoils->VarSpeedCoil(DXCoilNum).MSRatedSHR(I) = NumArray(10 + (I - 1) * 8);
                 state.dataVariableSpeedCoils->VarSpeedCoil(DXCoilNum).MSRatedCOP(I) = NumArray(11 + (I - 1) * 8);
-                state.dataVariableSpeedCoils->VarSpeedCoil(DXCoilNum).MSRatedAirVolFlowRate(I) = NumArray(12 + (I - 1) * 8);             
+                state.dataVariableSpeedCoils->VarSpeedCoil(DXCoilNum).MSRatedAirVolFlowRate(I) = NumArray(12 + (I - 1) * 8);
                 state.dataVariableSpeedCoils->VarSpeedCoil(DXCoilNum).MSRatedEvaporatorFanPowerPerVolumeFlowRate2017(I) = NumArray(13 + (I - 1) * 8);
                 state.dataVariableSpeedCoils->VarSpeedCoil(DXCoilNum).MSRatedEvaporatorFanPowerPerVolumeFlowRate2023(I) = NumArray(14 + (I - 1) * 8);
                 state.dataVariableSpeedCoils->VarSpeedCoil(DXCoilNum).MSRatedWaterVolFlowRate(I) = NumArray(15 + (I - 1) * 8);
@@ -5833,6 +5833,49 @@ namespace VariableSpeedCoils {
                 ShowContinueError(state, "Carefully review the Load Side Total, Sensible, and Latent heat transfer rates");
                 ShowContinueError(state, "... to ensure they meet the expected manufacturers performance specifications.");
             }
+        }
+
+        Array1D<DataHeatBalance::RefrigCondenserType> CondenserType;
+        StandardRatings::HPdefrostControl DefrostControl;
+        switch (varSpeedCoil.VSCoilType) {
+        case DataHVACGlobals::Coil_CoolingAirToAirVariableSpeed:
+            CondenserType.push_back(varSpeedCoil.CondenserType);
+            switch (varSpeedCoil.DefrostControl) // defrost control; 1=timed, 2=on-demand
+            {
+            case 1:
+                DefrostControl = StandardRatings::HPdefrostControl::Timed;
+                break;
+            case 2:
+                DefrostControl = StandardRatings::HPdefrostControl::OnDemand;
+                break;
+            default:
+                break;
+            }
+            StandardRatings::CalcDXCoilStandardRating(state,
+                                                      varSpeedCoil.Name,
+                                                      varSpeedCoil.VarSpeedCoilType,
+                                                      varSpeedCoil.VSCoilType,
+                                                      varSpeedCoil.NumOfSpeeds,
+                                                      varSpeedCoil.MSRatedTotCap,
+                                                      varSpeedCoil.MSRatedCOP,
+                                                      varSpeedCoil.MSCCapAirFFlow,
+                                                      varSpeedCoil.MSCCapFTemp,
+                                                      varSpeedCoil.MSEIRAirFFlow,
+                                                      varSpeedCoil.MSEIRFTemp,
+                                                      varSpeedCoil.PLFFPLR,
+                                                      varSpeedCoil.MSRatedAirVolFlowRate,
+                                                      varSpeedCoil.MSRatedEvaporatorFanPowerPerVolumeFlowRate2017,
+                                                      varSpeedCoil.MSRatedEvaporatorFanPowerPerVolumeFlowRate2023,
+                                                      CondenserType,
+                                                      0, // varSpeedCoil.RegionNum, // ??
+                                                      varSpeedCoil.MinOATCompressor,
+                                                      varSpeedCoil.OATempCompressorOn,
+                                                      false, // varSpeedCoil.OATempCompressorOnOffBlank, // ??
+                                                      DefrostControl,
+                                                      ObjexxFCL::Optional_bool_const());
+            break;
+        default:
+            break;
         }
     }
 
